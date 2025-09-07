@@ -1,36 +1,781 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#667eea" />
-    <meta name="description" content="INTERNITY MUSIC - Premium music streaming and download platform with high-quality audio, secure UPI payments, and ad-free experience" />
-    <meta name="keywords" content="music streaming, download music, UPI payments, high-quality audio, Indian music platform" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <title>INTERNITY MUSIC - Premium Music Streaming Platform</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTERNITY MUSIC - Premium Music Streaming</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --success-gradient: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --sidebar-bg: #151515;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --text-muted: #666666;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --hover-bg: rgba(255, 255, 255, 0.05);
+            --success-color: #00ff88;
+            --error-color: #ff4444;
+            --warning-color: #ffaa00;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 87, 108, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundMove 20s ease-in-out infinite;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        .demo-banner {
+            background: rgba(255, 170, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 170, 0, 0.3);
+            color: #ffaa00;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .demo-banner a {
+            color: #ffaa00;
+            text-decoration: underline;
+        }
+
+        /* Landing Page Styles */
+        .page {
+            min-height: 100vh;
+            margin-top: 60px;
+        }
+
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-icon {
+            font-size: 5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.4;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Auth Page Styles */
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            margin-top: 60px;
+        }
+
+        .auth-container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-gradient);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .welcome-icon {
+            font-size: 4rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .oauth-button {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .oauth-button:hover {
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .google-icon {
+            width: 24px;
+            height: 24px;
+            background: conic-gradient(from -45deg, #ea4335, #fbbc05, #34a853, #4285f4, #ea4335);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .google-icon::after {
+            content: 'G';
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .status-success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--success-color);
+        }
+
+        .status-loading {
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+            color: var(--warning-color);
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid var(--text-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .features {
+            padding: 5rem 2rem;
+            background: var(--card-bg);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .features-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .footer {
+            background: var(--card-bg);
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .auth-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        🎵 <strong>Demo Mode:</strong> This is a demonstration version of INTERNITY MUSIC. All functionality is simulated for showcase purposes.
+        <a href="https://github.com/Abhisheksingh17cyber/internitymusic" target="_blank">View Source Code</a>
+    </div>
+
+    <!-- Landing Page -->
+    <div id="landingPage" class="page">
+        <section class="hero">
+            <div class="hero-content fade-in">
+                <div class="hero-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h1 class="hero-title">INTERNITY MUSIC</h1>
+                <p class="hero-subtitle">Premium Music Streaming Platform<br>Discover, Stream & Download High-Quality Music</p>
+                
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="showAuthPage()">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Get Started
+                    </button>
+                    <button class="btn btn-secondary" onclick="showFeatures()">
+                        <i class="fas fa-info-circle"></i>
+                        Learn More
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="features-container">
+                <h2 class="features-title">Why Choose INTERNITY MUSIC?</h2>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <h3 class="feature-title">High-Quality Streaming</h3>
+                        <p class="feature-description">Experience crystal clear audio with lossless quality streaming up to 320kbps for the ultimate listening experience.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <h3 class="feature-title">Instant Downloads</h3>
+                        <p class="feature-description">Download your favorite tracks instantly with secure UPI payments and enjoy offline listening anywhere, anytime.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Secure Payments</h3>
+                        <p class="feature-description">Safe and secure transactions with UPI integration, protecting your financial data with enterprise-grade security.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Cross-Platform</h3>
+                        <p class="feature-description">Seamlessly sync across all your devices - web, mobile, and desktop with cloud synchronization.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="feature-title">Made in India</h3>
+                        <p class="feature-description">Proudly supporting local artists and the Indian music industry with a platform built for Indian music lovers.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <h3 class="feature-title">Ad-Free Experience</h3>
+                        <p class="feature-description">Enjoy uninterrupted music streaming without any advertisements or breaks in your listening experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Authentication Page -->
+    <div id="authPage" class="page hidden">
+        <div class="auth-page">
+            <div class="auth-container fade-in">
+                <div class="welcome-icon">
+                    <i class="fas fa-headphones"></i>
+                </div>
+                <h1 class="welcome-title">Welcome back!</h1>
+                <p class="welcome-subtitle">Sign in to your account to access premium music features</p>
+                
+                <div id="statusMessage" class="status-message"></div>
+                
+                <button class="oauth-button" id="googleSignIn">
+                    <div class="google-icon"></div>
+                    <span>Continue with Google</span>
+                    <div class="loading-spinner" id="loadingSpinner"></div>
+                </button>
+
+                <button class="oauth-button" id="demoSignIn" style="background: var(--primary-gradient); border: none; margin-top: 0.5rem;">
+                    <i class="fas fa-play"></i>
+                    <span>Try Demo Mode</span>
+                </button>
+
+                <button class="oauth-button" onclick="showLandingPage()" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); margin-top: 0.5rem;">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Home</span>
+                </button>
+
+                <div class="auth-features">
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
+                        🎵 High-quality streaming<br>
+                        📱 Cross-platform sync<br>
+                        🚫 Ad-free experience
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-music"></i> INTERNITY MUSIC
+            </div>
+            <p>&copy; 2024 INTERNITY MUSIC. All rights reserved. Made with ❤️ in India</p>
+        </div>
+    </footer>
+
     <script>
-      // Redirect to the beautiful landing page
-      if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-        window.location.href = './landing.html';
-      }
+        function showAuthPage() {
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('authPage').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function showLandingPage() {
+            document.getElementById('authPage').classList.add('hidden');
+            document.getElementById('landingPage').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function showFeatures() {
+            document.getElementById('features').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message status-${type}`;
+            statusEl.style.display = 'block';
+            
+            if (type !== 'error') {
+                setTimeout(() => {
+                    statusEl.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function setLoading(isLoading) {
+            const button = document.getElementById('googleSignIn');
+            const spinner = document.getElementById('loadingSpinner');
+            const buttonText = button.querySelector('span');
+            
+            if (isLoading) {
+                spinner.style.display = 'block';
+                buttonText.textContent = 'Connecting...';
+                button.disabled = true;
+                button.style.opacity = '0.7';
+            } else {
+                spinner.style.display = 'none';
+                buttonText.textContent = 'Continue with Google';
+                button.disabled = false;
+                button.style.opacity = '1';
+            }
+        }
+
+        function showWelcomePage() {
+            const container = document.querySelector('.auth-container');
+            container.innerHTML = `
+                <div class="welcome-icon">
+                    <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                </div>
+                <h1 class="welcome-title">Welcome to INTERNITY MUSIC!</h1>
+                <p class="welcome-subtitle">Demo authentication successful! This showcases the complete user flow of the premium music streaming platform.</p>
+                <button class="oauth-button" onclick="showMusicDashboard()" style="background: var(--primary-gradient); border: none; margin-bottom: 1rem;">
+                    <i class="fas fa-music"></i>
+                    <span>Explore Music Dashboard</span>
+                </button>
+                <button class="oauth-button" onclick="showLandingPage()" style="background: transparent; border: 1px solid rgba(255,255,255,0.2);">
+                    <i class="fas fa-home"></i>
+                    <span>Back to Home</span>
+                </button>
+            `;
+        }
+
+        function showMusicDashboard() {
+            const container = document.querySelector('.auth-container');
+            container.innerHTML = `
+                <div class="welcome-icon">
+                    <i class="fas fa-music" style="color: var(--success-color);"></i>
+                </div>
+                <h1 class="welcome-title">Music Dashboard</h1>
+                <p class="welcome-subtitle">This is where users would access their music library, playlists, and streaming features in the full application.</p>
+                
+                <div style="display: grid; gap: 1rem; margin: 2rem 0;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; text-align: left;">
+                        <h4 style="color: var(--success-color); margin-bottom: 0.5rem;">🎵 Your Library</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Access your purchased music, playlists, and downloads</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; text-align: left;">
+                        <h4 style="color: var(--success-color); margin-bottom: 0.5rem;">🔍 Discover</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Browse 10,000+ tracks across all genres</p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; text-align: left;">
+                        <h4 style="color: var(--success-color); margin-bottom: 0.5rem;">💳 UPI Payments</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Secure payments starting from ₹25 per track</p>
+                    </div>
+                </div>
+                
+                <button class="oauth-button" onclick="showLandingPage()" style="background: var(--primary-gradient); border: none;">
+                    <i class="fas fa-home"></i>
+                    <span>Back to Home</span>
+                </button>
+            `;
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('googleSignIn').addEventListener('click', function() {
+                setLoading(true);
+                showStatus('Connecting to Google (Demo Mode)...', 'loading');
+                
+                setTimeout(() => {
+                    setLoading(false);
+                    showStatus('Demo authentication successful!', 'success');
+                    setTimeout(showWelcomePage, 2000);
+                }, 2000);
+            });
+
+            document.getElementById('demoSignIn').addEventListener('click', function() {
+                showStatus('Entering demo mode...', 'loading');
+                setTimeout(() => {
+                    showStatus('Demo mode activated!', 'success');
+                    setTimeout(showWelcomePage, 2000);
+                }, 1500);
+            });
+
+            // Add ripple effect to buttons
+            document.querySelectorAll('.oauth-button, .btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.1);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s ease-out;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+
+            // Add CSS for ripple animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes ripple {
+                    to {
+                        transform: scale(2);
+                        opacity: 0;
+                    }
+                }
+                .oauth-button, .btn {
+                    position: relative;
+                    overflow: hidden;
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Animate feature cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Initially hide feature cards
+            document.querySelectorAll('.feature-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
     </script>
-  </head>
-  <body class="bg-gray-50 font-display">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    
-    <!-- Fallback React App for existing functionality -->
-    <script>
-      // If someone directly accesses with React app parameters, load React app
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('react') || document.getElementById('root')) {
-        // Load React app here if needed
-      }
-    </script>
-  </body>
+
+    <!-- Fallback for React App -->
+    <div id="root" class="hidden"></div>
+</body>
 </html>
