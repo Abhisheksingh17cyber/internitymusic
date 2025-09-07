@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Music from './pages/Music';
 import Payment from './pages/Payment';
 import Footer from './components/Footer';
+import GlobalMusicPlayer from './components/GlobalMusicPlayer';
 
 function App() {
   const { user, loading } = useAuth();
@@ -31,6 +32,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/music" element={<Music />} />
+          <Route path="/player" element={<GlobalMusicPlayer />} />
           <Route path="/profile" element={user ? <Profile /> : <Login />} />
           <Route path="/payment" element={user ? <Payment /> : <Login />} />
         </Routes>
