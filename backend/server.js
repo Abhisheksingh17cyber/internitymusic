@@ -11,6 +11,8 @@ const path = require('path');
 const authRoutes = require('./routes/auth');
 const musicRoutes = require('./routes/music');
 const paymentRoutes = require('./routes/payments');
+const adsRoutes = require('./routes/ads');
+const streamingRoutes = require('./routes/streaming');
 
 // Import middleware
 const errorHandler = require('./middleware/errorHandler');
@@ -75,6 +77,8 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/music', musicRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/ads', adsRoutes);
+app.use('/api/streaming', streamingRoutes);
 
 // Serve React app in production
 if (process.env.NODE_ENV === 'production') {
