@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/internitymusic/static/css/main.2a581216.css",
+    "main.js": "/internitymusic/static/js/main.b8c116f3.js",
+    "index.html": "/internitymusic/index.html",
+    "main.2a581216.css.map": "/internitymusic/static/css/main.2a581216.css.map",
+    "main.b8c116f3.js.map": "/internitymusic/static/js/main.b8c116f3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2a581216.css",
+    "static/js/main.b8c116f3.js"
+  ]
+}
