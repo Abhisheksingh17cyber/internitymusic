@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
+import DemoBanner from './components/DemoBanner';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      <DemoBanner />
       <Navbar />
       
       <main className="flex-1">

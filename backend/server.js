@@ -23,12 +23,19 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('📦 Connected to MongoDB'))
-.catch(err => console.error('❌ MongoDB connection error:', err));
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('📦 Connected to MongoDB'))
+  .catch(err => {
+    console.error('❌ MongoDB connection error:', err.message);
+    console.log('⚠️  Server will continue without database. Some features may not work.');
+  });
+} else {
+  console.log('⚠️  No database configured. Running in demo mode.');
+}
 
 // Middleware
 app.use(helmet({

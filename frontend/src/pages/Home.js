@@ -6,7 +6,7 @@ import {
   MusicalNoteIcon, 
   ShieldCheckIcon, 
   CreditCardIcon,
-  CloudDownloadIcon,
+  ArrowDownTrayIcon,
   UserGroupIcon
 } from '@heroicons/react/24/outline';
 
@@ -25,7 +25,7 @@ const Home = () => {
       description: 'Pay securely using UPI with instant confirmation and download access.'
     },
     {
-      icon: <CloudDownloadIcon className="h-8 w-8 text-primary-600" />,
+      icon: <ArrowDownTrayIcon className="h-8 w-8 text-primary-600" />,
       title: 'Instant Downloads',
       description: 'Download purchased music instantly in your preferred quality format.'
     },

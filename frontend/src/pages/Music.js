@@ -27,13 +27,14 @@ const Music = () => {
     try {
       setLoading(true);
       const params = {};
-      if (searchTerm) params.search = searchTerm;
+      if (searchTerm) params.q = searchTerm;
       if (selectedGenre) params.genre = selectedGenre;
-
+      
       const response = await musicAPI.getAll(params);
-      setMusic(response.data.music);
+      setMusic(response.data?.music || response.data || []);
     } catch (error) {
-      console.error('Failed to fetch music:', error);
+      console.error('Error fetching music:', error);
+      setMusic([]);
     } finally {
       setLoading(false);
     }

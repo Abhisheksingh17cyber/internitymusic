@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import api from '../services/api';
+import { authAPI } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -27,8 +27,8 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await api.get('/auth/profile');
-      setUser(response.data);
+      const response = await authAPI.getProfile();
+      setUser(response.data?.user || response.data);
     } catch (error) {
       console.error('Failed to fetch user profile:', error);
       logout();
@@ -37,13 +37,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = async (googleToken) => {
+  const login = async (emailOrToken, password = null) => {
     try {
-      const response = await api.post('/auth/google', { token: googleToken });
+      let response;
+      if (password) {
+        // Email/password login
+        response = await authAPI.login(emailOrToken, password);
+      } else {
+        // Google login
+        response = await authAPI.googleLogin(emailOrToken);
+      }
+      
       const { token, user: userData } = response.data;
       
       localStorage.setItem('token', token);
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(userData);
       
       return { success: true };
@@ -53,9 +60,23 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (name, email, password) => {
+    try {
+      const response = await authAPI.register(name, email, password);
+      const { token, user: userData } = response.data;
+      
+      localStorage.setItem('token', token);
+      setUser(userData);
+      
+      return { success: true };
+    } catch (error) {
+      console.error('Registration failed:', error);
+      return { success: false, error: error.response?.data?.error || 'Registration failed' };
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
-    delete api.defaults.headers.common['Authorization'];
     setUser(null);
   };
 
@@ -66,6 +87,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     login,
+    register,
     logout,
     updateUser,
     loading,
