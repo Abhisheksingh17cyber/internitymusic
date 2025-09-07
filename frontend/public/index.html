@@ -343,8 +343,8 @@
             transform: translateY(-2px);
         }
 
-        .download-btn {
-            background: var(--warning);
+        .like-btn {
+            background: var(--accent);
             color: white;
             border: none;
             padding: 0.5rem 1rem;
@@ -358,7 +358,32 @@
             gap: 0.5rem;
         }
 
-        .download-btn:hover {
+        .like-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .like-btn.liked {
+            background: #e91e63;
+        }
+
+        .donate-btn {
+            background: var(--warning);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+        }
+
+        .donate-btn:hover {
             background: #f57f17;
             transform: translateY(-2px);
         }
@@ -627,12 +652,12 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Premium Features */
-        .premium-badge {
+        /* Music Features */
+        .free-badge {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: var(--accent);
+            background: var(--success);
             color: white;
             padding: 0.2rem 0.5rem;
             border-radius: 10px;
@@ -640,8 +665,16 @@
             font-weight: bold;
         }
 
-        .free-badge {
-            background: var(--success);
+        .country-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
         }
 
         /* Toast Notifications */
@@ -724,14 +757,14 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-section="downloads">
-                        <i class="fas fa-download"></i>
-                        <span>Downloads</span>
+                        <i class="fas fa-heart"></i>
+                        <span>Liked Songs</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="premium">
-                        <i class="fas fa-crown"></i>
-                        <span>Go Premium</span>
+                    <a href="#" class="nav-link" data-section="support">
+                        <i class="fas fa-heart"></i>
+                        <span>Support Us</span>
                     </a>
                 </li>
             </ul>
@@ -769,22 +802,26 @@
             <div class="ad-banner" id="adBanner">
                 <div class="ad-timer" id="adTimer">5s</div>
                 <div class="ad-content">
-                    <h3>🎵 Upgrade to Premium!</h3>
-                    <p>Enjoy ad-free streaming and exclusive downloads. Get Premium for just ₹99/month!</p>
-                    <button class="skip-ad" id="skipAd">Skip Ad</button>
+                    <h3>� Free Music for Everyone!</h3>
+                    <p>Enjoying our global music collection? Consider supporting us to keep it free for all!</p>
+                    <button class="skip-ad" id="skipAd">Continue Listening</button>
                 </div>
             </div>
 
             <!-- Genre Filter -->
             <div class="genre-filter">
-                <button class="genre-btn active" data-genre="all">All</button>
-                <button class="genre-btn" data-genre="pop">Pop</button>
-                <button class="genre-btn" data-genre="rock">Rock</button>
-                <button class="genre-btn" data-genre="hip-hop">Hip Hop</button>
-                <button class="genre-btn" data-genre="electronic">Electronic</button>
-                <button class="genre-btn" data-genre="classical">Classical</button>
-                <button class="genre-btn" data-genre="jazz">Jazz</button>
-                <button class="genre-btn" data-genre="bollywood">Bollywood</button>
+                <button class="genre-btn active" data-genre="all">🌍 All World</button>
+                <button class="genre-btn" data-genre="pop">🎵 Pop</button>
+                <button class="genre-btn" data-genre="rock">🎸 Rock</button>
+                <button class="genre-btn" data-genre="bollywood">🇮🇳 Bollywood</button>
+                <button class="genre-btn" data-genre="k-pop">🇰🇷 K-Pop</button>
+                <button class="genre-btn" data-genre="latin">💃 Latin</button>
+                <button class="genre-btn" data-genre="afrobeat">🌍 Afrobeat</button>
+                <button class="genre-btn" data-genre="electronic">🎧 Electronic</button>
+                <button class="genre-btn" data-genre="jazz">🎷 Jazz</button>
+                <button class="genre-btn" data-genre="classical">🎼 Classical</button>
+                <button class="genre-btn" data-genre="arabic">🕌 Arabic</button>
+                <button class="genre-btn" data-genre="reggae">🌿 Reggae</button>
             </div>
 
             <!-- Music Content -->
@@ -867,107 +904,220 @@
             adsWatched: 0
         };
 
-        // Sample music data with working audio URLs
+        // Global music library with diverse international content
         const sampleMusic = [
+            // American Music
             {
                 id: 1,
                 title: "Blinding Lights",
                 artist: "The Weeknd",
+                country: "🇺🇸 USA",
                 genre: "pop",
                 duration: 200,
-                price: 25,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-_swing.ogg",
                 image: "🌟"
             },
             {
                 id: 2,
                 title: "Bohemian Rhapsody",
                 artist: "Queen",
+                country: "🇬🇧 UK",
                 genre: "rock",
                 duration: 355,
-                price: 30,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a",
                 image: "👑"
             },
             {
                 id: 3,
                 title: "Shape of You",
                 artist: "Ed Sheeran",
+                country: "🇬🇧 UK",
                 genre: "pop",
                 duration: 233,
-                price: 25,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.ogg",
                 image: "🎵"
             },
+            // Indian/Bollywood Music
             {
                 id: 4,
-                title: "Thunderstruck",
-                artist: "AC/DC",
-                genre: "rock",
-                duration: 292,
-                price: 30,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-                image: "⚡"
+                title: "Kal Ho Naa Ho",
+                artist: "Sonu Nigam",
+                country: "🇮🇳 India",
+                genre: "bollywood",
+                duration: 278,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+                image: "🇮🇳"
             },
             {
                 id: 5,
-                title: "Levitating",
-                artist: "Dua Lipa",
-                genre: "pop",
-                duration: 203,
-                price: 25,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-                image: "✨"
+                title: "Tum Hi Ho",
+                artist: "Arijit Singh",
+                country: "🇮🇳 India",
+                genre: "bollywood",
+                duration: 258,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.ogg",
+                image: "💕"
             },
             {
                 id: 6,
-                title: "Sicko Mode",
-                artist: "Travis Scott",
-                genre: "hip-hop",
-                duration: 312,
-                price: 30,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-                image: "🔥"
+                title: "Vande Mataram",
+                artist: "A.R. Rahman",
+                country: "🇮🇳 India",
+                genre: "patriotic",
+                duration: 245,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-_swing.ogg",
+                image: "🕉️"
             },
+            // Latin Music
             {
                 id: 7,
-                title: "One More Time",
-                artist: "Daft Punk",
-                genre: "electronic",
-                duration: 320,
-                price: 30,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-                image: "🤖"
+                title: "Despacito",
+                artist: "Luis Fonsi ft. Daddy Yankee",
+                country: "🇪🇸 Spain",
+                genre: "latin",
+                duration: 229,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a",
+                image: "💃"
             },
             {
                 id: 8,
-                title: "Canon in D",
-                artist: "Pachelbel",
-                genre: "classical",
-                duration: 300,
-                price: 20,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-                image: "🎼"
+                title: "La Vida Es Un Carnaval",
+                artist: "Celia Cruz",
+                country: "🇨🇺 Cuba",
+                genre: "salsa",
+                duration: 245,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.ogg",
+                image: "🎺"
             },
+            // K-Pop
             {
                 id: 9,
-                title: "Take Five",
-                artist: "Dave Brubeck",
-                genre: "jazz",
-                duration: 324,
-                price: 25,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-                image: "🎷"
+                title: "Dynamite",
+                artist: "BTS",
+                country: "🇰🇷 South Korea",
+                genre: "k-pop",
+                duration: 199,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+                image: "🎤"
             },
             {
                 id: 10,
-                title: "Kal Ho Naa Ho",
-                artist: "Sonu Nigam",
-                genre: "bollywood",
-                duration: 278,
-                price: 20,
-                stream_url: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav",
-                image: "🇮🇳"
+                title: "Kill This Love",
+                artist: "BLACKPINK",
+                country: "🇰🇷 South Korea",
+                genre: "k-pop",
+                duration: 191,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.ogg",
+                image: "🖤"
+            },
+            // African Music
+            {
+                id: 11,
+                title: "Ye",
+                artist: "Burna Boy",
+                country: "🇳🇬 Nigeria",
+                genre: "afrobeat",
+                duration: 201,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-_swing.ogg",
+                image: "🌍"
+            },
+            {
+                id: 12,
+                title: "Jerusalema",
+                artist: "Master KG ft. Nomcebo Zikode",
+                country: "🇿🇦 South Africa",
+                genre: "amapiano",
+                duration: 208,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a",
+                image: "🙏"
+            },
+            // French Music
+            {
+                id: 13,
+                title: "La Vie En Rose",
+                artist: "Édith Piaf",
+                country: "🇫🇷 France",
+                genre: "chanson",
+                duration: 188,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.ogg",
+                image: "🌹"
+            },
+            // Brazilian Music
+            {
+                id: 14,
+                title: "The Girl From Ipanema",
+                artist: "Stan Getz & Astrud Gilberto",
+                country: "🇧🇷 Brazil",
+                genre: "bossa-nova",
+                duration: 317,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+                image: "🏖️"
+            },
+            // Japanese Music
+            {
+                id: 15,
+                title: "Sukiyaki",
+                artist: "Kyu Sakamoto",
+                country: "🇯🇵 Japan",
+                genre: "j-pop",
+                duration: 191,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.ogg",
+                image: "🎌"
+            },
+            // Middle Eastern Music
+            {
+                id: 16,
+                title: "Habibi Ya Nour El Ain",
+                artist: "Amr Diab",
+                country: "🇪🇬 Egypt",
+                genre: "arabic",
+                duration: 255,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-_swing.ogg",
+                image: "🕌"
+            },
+            // Electronic/EDM
+            {
+                id: 17,
+                title: "Levels",
+                artist: "Avicii",
+                country: "🇸🇪 Sweden",
+                genre: "electronic",
+                duration: 202,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a",
+                image: "🎧"
+            },
+            // Classical
+            {
+                id: 18,
+                title: "Canon in D",
+                artist: "Johann Pachelbel",
+                country: "🇩🇪 Germany",
+                genre: "classical",
+                duration: 300,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.ogg",
+                image: "🎼"
+            },
+            // Jazz
+            {
+                id: 19,
+                title: "Take Five",
+                artist: "Dave Brubeck",
+                country: "🇺🇸 USA",
+                genre: "jazz",
+                duration: 324,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+                image: "🎷"
+            },
+            // Reggae
+            {
+                id: 20,
+                title: "No Woman, No Cry",
+                artist: "Bob Marley",
+                country: "🇯🇲 Jamaica",
+                genre: "reggae",
+                duration: 255,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.ogg",
+                image: "�"
             }
         ];
 
@@ -1067,14 +1217,15 @@
                 <div class="music-info">
                     <h3>${song.title}</h3>
                     <p class="music-artist">${song.artist}</p>
+                    <p class="music-country" style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 1rem;">${song.country}</p>
                     <div class="music-actions">
                         <button class="stream-btn" data-song-id="${song.id}">
                             <i class="fas fa-play"></i>
-                            Free Stream
+                            🎵 Free Stream
                         </button>
-                        <button class="download-btn" data-song-id="${song.id}">
-                            <i class="fas fa-download"></i>
-                            <span class="price">₹${song.price}</span>
+                        <button class="like-btn" data-song-id="${song.id}">
+                            <i class="fas fa-heart"></i>
+                            ❤️ Like
                         </button>
                     </div>
                 </div>
@@ -1154,8 +1305,8 @@
                 case 'downloads':
                     renderDownloadsSection();
                     break;
-                case 'premium':
-                    renderPremiumSection();
+                case 'support':
+                    renderSupportSection();
                     break;
                 default:
                     renderDiscoverSection();
@@ -1227,11 +1378,11 @@
             }, { once: true });
         }
 
-        // Handle download purchase
-        function handleDownload(song) {
-            if (confirm(`Purchase "${song.title}" by ${song.artist} for ₹${song.price}?\n\n💡 This will allow offline downloads and high-quality audio.`)) {
-                // Simulate purchase process
-                showToast('🛒 Processing payment...', 'warning');
+        // Handle support action
+        function handleSupport(song) {
+            if (confirm(`Love "${song.title}" by ${song.artist}?\n\n� Would you like to support the artist and our platform?`)) {
+                showDonationModal();
+            }
                 
                 setTimeout(() => {
                     // Simulate successful purchase
@@ -1463,30 +1614,30 @@
         }
 
         function renderDownloadsSection() {
-            const downloads = JSON.parse(localStorage.getItem('downloads') || '[]');
+            const likedSongs = JSON.parse(localStorage.getItem('likedSongs') || '[]');
             
-            if (downloads.length === 0) {
+            if (likedSongs.length === 0) {
                 document.getElementById('content').innerHTML = `
-                    <h2 class="section-title">📥 Your Downloads</h2>
+                    <h2 class="section-title">� Liked Songs</h2>
                     <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-                        <i class="fas fa-download" style="font-size: 4rem; margin-bottom: 1rem; color: var(--warning);"></i>
-                        <h3>No downloads yet</h3>
-                        <p>Purchase songs to download them for offline listening!</p>
+                        <i class="fas fa-heart" style="font-size: 4rem; margin-bottom: 1rem; color: var(--error);"></i>
+                        <h3>No liked songs yet</h3>
+                        <p>Like songs to add them to your collection!</p>
                         <button onclick="document.querySelector('[data-section=\"discover\"]').click()" 
-                                style="background: var(--warning); color: white; border: none; padding: 1rem 2rem; border-radius: 25px; margin-top: 1rem; cursor: pointer;">
-                            Browse Music
+                                style="background: var(--error); color: white; border: none; padding: 1rem 2rem; border-radius: 25px; margin-top: 1rem; cursor: pointer;">
+                            Discover Music
                         </button>
                     </div>
                 `;
             } else {
-                let downloadHTML = `<h2 class="section-title">📥 Your Downloads (${downloads.length})</h2><div class="music-grid">`;
+                let downloadHTML = `<h2 class="section-title">� Liked Songs (${likedSongs.length})</h2><div class="music-grid">`;
                 
-                downloads.forEach(song => {
+                likedSongs.forEach(song => {
                     downloadHTML += `
                         <div class="music-card">
                             <div class="music-image">
                                 <span style="font-size: 3rem;">${song.image}</span>
-                                <div class="premium-badge">OWNED</div>
+                                <div class="free-badge">FREE</div>
                             </div>
                             <div class="music-info">
                                 <h3>${song.title}</h3>
@@ -1514,60 +1665,64 @@
             }
         }
 
-        function renderPremiumSection() {
+        function renderSupportSection() {
             document.getElementById('content').innerHTML = `
-                <h2 class="section-title">👑 Go Premium</h2>
+                <h2 class="section-title">❤️ Support Us</h2>
                 <div style="max-width: 800px; margin: 0 auto;">
                     <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; margin-bottom: 2rem; text-align: center;">
-                        <h3 style="color: var(--accent); margin-bottom: 1rem; font-size: 2rem;">🎵 INTERNITY MUSIC Premium</h3>
+                        <h3 style="color: var(--accent); margin-bottom: 1rem; font-size: 2rem;">� INTERNITY MUSIC - Free for All</h3>
                         <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
-                            Upgrade to Premium for the ultimate music experience!
+                            We believe music should be free for everyone, everywhere. Help us keep it that way!
                         </p>
                         
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0;">
                             <div style="text-align: center; padding: 1rem;">
-                                <i class="fas fa-music" style="font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem;"></i>
-                                <h4>Ad-Free Streaming</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">No interruptions</p>
+                                <i class="fas fa-globe" style="font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem;"></i>
+                                <h4>Global Music</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Music from every culture</p>
                             </div>
                             <div style="text-align: center; padding: 1rem;">
-                                <i class="fas fa-download" style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem;"></i>
-                                <h4>Unlimited Downloads</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Own your music</p>
+                                <i class="fas fa-heart" style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem;"></i>
+                                <h4>Always Free</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">No payment required</p>
                             </div>
                             <div style="text-align: center; padding: 1rem;">
                                 <i class="fas fa-headphones" style="font-size: 2rem; color: var(--warning); margin-bottom: 0.5rem;"></i>
                                 <h4>High Quality Audio</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">320kbps streaming</p>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Great sound quality</p>
                             </div>
                             <div style="text-align: center; padding: 1rem;">
-                                <i class="fas fa-mobile-alt" style="font-size: 2rem; color: var(--error); margin-bottom: 0.5rem;"></i>
-                                <h4>Offline Mode</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Listen anywhere</p>
+                                <i class="fas fa-users" style="font-size: 2rem; color: var(--error); margin-bottom: 0.5rem;"></i>
+                                <h4>Community Driven</h4>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Supported by users</p>
                             </div>
                         </div>
                         
                         <div style="background: var(--gradient); padding: 2rem; border-radius: 10px; color: white; margin: 2rem 0;">
-                            <h3 style="margin-bottom: 1rem;">₹99/month</h3>
-                            <p style="margin-bottom: 2rem;">First month free for new users!</p>
-                            <button onclick="showToast('Premium upgrade coming soon! 🚀 Meanwhile, enjoy free streaming with ads.', 'info')" 
-                                    style="background: white; color: var(--primary); border: none; padding: 1rem 2rem; border-radius: 25px; cursor: pointer; font-weight: bold;">
-                                Start Free Trial
+                            <h3 style="margin-bottom: 1rem;">🎁 Support with Love</h3>
+                            <p style="margin-bottom: 2rem;">Your donations help us maintain this free platform for music lovers worldwide!</p>
+                            <button onclick="showDonationModal()" 
+                                    style="background: white; color: var(--primary); border: none; padding: 1rem 2rem; border-radius: 25px; cursor: pointer; font-weight: bold; margin-right: 1rem;">
+                                💝 Donate Now
+                            </button>
+                            <button onclick="showToast('Thank you for using our free platform! 🎵', 'success')" 
+                                    style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 1rem 2rem; border-radius: 25px; cursor: pointer; font-weight: bold;">
+                                Keep Using Free
                             </button>
                         </div>
                         
                         <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                            Cancel anytime. Terms and conditions apply.
+                            Your support helps maintain this free platform for everyone worldwide.
                         </p>
                     </div>
                     
                     <div style="background: var(--card-bg); padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
-                        <h4 style="color: var(--accent); margin-bottom: 1rem;">🆓 Current Free Features:</h4>
+                        <h4 style="color: var(--accent); margin-bottom: 1rem;">� Our Mission:</h4>
                         <ul style="color: var(--text-secondary); list-style-type: none; padding: 0;">
-                            <li style="margin-bottom: 0.5rem;">✅ Unlimited streaming with ads</li>
-                            <li style="margin-bottom: 0.5rem;">✅ Full catalog access</li>
-                            <li style="margin-bottom: 0.5rem;">✅ Basic audio quality</li>
-                            <li style="margin-bottom: 0.5rem;">💰 Pay per download (₹20-30)</li>
+                            <li style="margin-bottom: 0.5rem;">🎵 Free music streaming for everyone</li>
+                            <li style="margin-bottom: 0.5rem;">🌍 Global music from all cultures</li>
+                            <li style="margin-bottom: 0.5rem;">❤️ Community-supported platform</li>
+                            <li style="margin-bottom: 0.5rem;">🎁 No forced payments, ever</li>
                         </ul>
                     </div>
                 </div>
@@ -1650,12 +1805,80 @@
 
         console.log('🎵 INTERNITY MUSIC - Complete Freemium Streaming Platform Ready!');
         console.log('Features:');
-        console.log('✅ Free unlimited streaming with ads');
-        console.log('✅ Paid downloads only (₹20-30 per song)');
+        // Show donation modal
+        function showDonationModal() {
+            const modal = document.createElement('div');
+            modal.innerHTML = `
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 10000;">
+                    <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; max-width: 500px; width: 90%; text-align: center;">
+                        <h3 style="color: var(--accent); margin-bottom: 1rem;">💝 Support INTERNITY MUSIC</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Help us keep music free for everyone worldwide!</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0;">
+                            <button onclick="processDonation('5')" style="background: var(--accent); color: white; border: none; padding: 1rem; border-radius: 10px; cursor: pointer;">$5</button>
+                            <button onclick="processDonation('10')" style="background: var(--accent); color: white; border: none; padding: 1rem; border-radius: 10px; cursor: pointer;">$10</button>
+                            <button onclick="processDonation('25')" style="background: var(--accent); color: white; border: none; padding: 1rem; border-radius: 10px; cursor: pointer;">$25</button>
+                        </div>
+                        
+                        <div style="margin: 1rem 0;">
+                            <input type="number" placeholder="Custom amount ($)" style="background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 0.5rem; border-radius: 5px; width: 150px;" id="customAmount">
+                            <button onclick="processDonation(document.getElementById('customAmount').value)" style="background: var(--success); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-left: 0.5rem;">Donate</button>
+                        </div>
+                        
+                        <button onclick="closeDonationModal()" style="background: var(--text-secondary); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 1rem;">Maybe Later</button>
+                    </div>
+                </div>
+            `;
+            modal.id = 'donationModal';
+            document.body.appendChild(modal);
+        }
+        
+        function closeDonationModal() {
+            const modal = document.getElementById('donationModal');
+            if (modal) modal.remove();
+        }
+        
+        function processDonation(amount) {
+            if (!amount || amount <= 0) {
+                showToast('Please enter a valid amount!', 'error');
+                return;
+            }
+            closeDonationModal();
+            showToast(`Thank you for your $${amount} donation! 💝 Your support keeps music free for everyone!`, 'success');
+        }
+
+        // Toggle like button
+        function toggleLike(songId) {
+            const btn = event.target;
+            const isLiked = btn.classList.contains('liked');
+            const song = sampleMusic.find(s => s.id === songId);
+            let likedSongs = JSON.parse(localStorage.getItem('likedSongs') || '[]');
+            
+            if (isLiked) {
+                btn.classList.remove('liked');
+                btn.innerHTML = '<i class="fas fa-heart"></i> Like';
+                // Remove from liked songs
+                likedSongs = likedSongs.filter(s => s.id !== songId);
+                localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
+                showToast('Removed from liked songs', 'info');
+            } else {
+                btn.classList.add('liked');
+                btn.innerHTML = '<i class="fas fa-heart"></i> Liked';
+                // Add to liked songs
+                if (song && !likedSongs.find(s => s.id === songId)) {
+                    likedSongs.push(song);
+                    localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
+                }
+                showToast('Added to liked songs!', 'success');
+            }
+        }
+
+        console.log('✅ Free unlimited streaming for everyone');
+        console.log('✅ Global music from all cultures');  
         console.log('✅ Full music player with controls');
         console.log('✅ Genre filtering and search');
-        console.log('✅ Ad system for free users');
-        console.log('✅ Premium upgrade options');
+        console.log('✅ Optional donation system');
+        console.log('✅ Community-supported platform');
         console.log('✅ Mobile responsive design');
     </script>
 </body>
