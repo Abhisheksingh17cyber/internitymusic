@@ -4,17 +4,33 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#8b5cf6" />
-    <meta name="description" content="MusicStream Pro - Your premium music streaming and download platform" />
+    <meta name="theme-color" content="#667eea" />
+    <meta name="description" content="INTERNITY MUSIC - Premium music streaming and download platform with high-quality audio, secure UPI payments, and ad-free experience" />
+    <meta name="keywords" content="music streaming, download music, UPI payments, high-quality audio, Indian music platform" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <title>MusicStream Pro - Premium Music Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>INTERNITY MUSIC - Premium Music Streaming Platform</title>
+    <script>
+      // Redirect to the beautiful landing page
+      if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+        window.location.href = './landing.html';
+      }
+    </script>
   </head>
   <body class="bg-gray-50 font-display">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    
+    <!-- Fallback React App for existing functionality -->
+    <script>
+      // If someone directly accesses with React app parameters, load React app
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('react') || document.getElementById('root')) {
+        // Load React app here if needed
+      }
+    </script>
   </body>
 </html>
