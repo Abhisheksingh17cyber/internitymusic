@@ -60,6 +60,7 @@
             66% { transform: translateY(10px) rotate(-1deg); }
         }
 
+        /* Demo Banner */
         .demo-banner {
             background: rgba(255, 170, 0, 0.1);
             border-bottom: 1px solid rgba(255, 170, 0, 0.3);
@@ -71,114 +72,186 @@
             position: fixed;
             width: 100%;
             top: 0;
-            z-index: 1000;
+            z-index: 1001;
         }
 
-        .demo-banner a {
-            color: #ffaa00;
-            text-decoration: underline;
-        }
-
-        /* Landing Page Styles */
-        .page {
-            min-height: 100vh;
-            margin-top: 60px;
-        }
-
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .hero-icon {
-            font-size: 5rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 2rem;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .hero-title {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            line-height: 1.4;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
+        /* Header */
+        .header {
+            position: fixed;
+            top: 50px;
+            width: 100%;
             padding: 1rem 2rem;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
             align-items: center;
             gap: 0.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
+            font-size: 1.5rem;
+            font-weight: 800;
             background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
         }
 
-        .btn-secondary {
-            background: transparent;
+        .logo i {
+            font-size: 2rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-container {
+            position: relative;
+            display: none;
+        }
+
+        .search-container.active {
+            display: block;
+        }
+
+        .search-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            width: 300px;
             color: var(--text-primary);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        .search-container i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
         }
 
-        /* Auth Page Styles */
-        .auth-page {
-            min-height: 100vh;
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border-radius: 25px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .user-menu:hover {
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Main Layout */
+        .app-container {
+            display: flex;
+            margin-top: 130px;
+            min-height: calc(100vh - 130px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 0;
+            position: fixed;
+            height: calc(100vh - 130px);
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-menu {
+            padding: 0 1rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .menu-item.active {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .menu-item i {
+            font-size: 1.2rem;
+            width: 20px;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
             padding: 2rem;
-            margin-top: 60px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        /* Auth Screen */
+        .auth-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 130px);
+            padding: 2rem;
+            margin-top: 130px;
         }
 
         .auth-container {
@@ -187,12 +260,10 @@
             background: rgba(26, 26, 26, 0.8);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
             padding: 3rem;
             text-align: center;
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -218,9 +289,13 @@
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             margin-bottom: 1rem;
             animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .welcome-title {
@@ -230,7 +305,6 @@
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .welcome-subtitle {
@@ -239,11 +313,12 @@
             font-size: 1.1rem;
         }
 
+        /* OAuth Button */
         .oauth-button {
             width: 100%;
             padding: 1rem 2rem;
             background: var(--card-bg);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--border-color);
             border-radius: 15px;
             color: var(--text-primary);
             font-size: 1rem;
@@ -259,10 +334,25 @@
             margin-bottom: 1rem;
         }
 
+        .oauth-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
         .oauth-button:hover {
             border-color: rgba(102, 126, 234, 0.5);
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .oauth-button:hover::before {
+            left: 100%;
         }
 
         .google-icon {
@@ -282,6 +372,328 @@
             font-size: 14px;
         }
 
+        /* Dashboard Sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Music Cards */
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .music-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+        }
+
+        .music-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image i {
+            font-size: 3rem;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .music-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-overlay i {
+            font-size: 1.5rem;
+            color: white;
+            margin-left: 3px;
+        }
+
+        .card-content {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .card-artist {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-price {
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        /* Genre Filters */
+        .genre-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .genre-filter {
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .genre-filter:hover, .genre-filter.active {
+            background: var(--primary-gradient);
+            border-color: transparent;
+            color: white;
+        }
+
+        /* Statistics Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .payment-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .payment-card:hover {
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .payment-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            background: var(--success-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .payment-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .payment-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-features li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .payment-features li i {
+            color: var(--success-color);
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: none;
+            z-index: 200;
+        }
+
+        .music-player.active {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .player-image {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-details h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .player-details p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: var(--hover-bg);
+        }
+
+        .play-btn {
+            background: var(--primary-gradient);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Status Messages */
         .status-message {
             padding: 1rem;
             border-radius: 10px;
@@ -289,6 +701,12 @@
             font-weight: 500;
             display: none;
             animation: slideDown 0.3s ease;
+        }
+
+        .status-error {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            color: var(--error-color);
         }
 
         .status-success {
@@ -308,6 +726,7 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* Loading Spinner */
         .loading-spinner {
             display: none;
             width: 24px;
@@ -323,286 +742,445 @@
             100% { transform: rotate(360deg); }
         }
 
-        .features {
-            padding: 5rem 2rem;
-            background: var(--card-bg);
-        }
-
-        .features-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .features-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 3rem;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
+        /* Utility Classes */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
             font-weight: 600;
-            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .feature-description {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .footer {
-            background: var(--card-bg);
-            padding: 3rem 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
+        .btn-primary {
             background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(102, 126, 234, 0.5);
         }
 
         .hidden {
-            display: none !important;
+            display: none;
         }
 
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
+            .sidebar {
+                transform: translateX(-100%);
             }
 
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
+            .sidebar.active {
+                transform: translateX(0);
             }
 
-            .btn {
-                width: 100%;
-                max-width: 300px;
+            .main-content {
+                margin-left: 0;
             }
 
-            .auth-container {
-                padding: 2rem;
-                margin: 1rem;
+            .search-container {
+                display: none !important;
             }
 
-            .welcome-title {
-                font-size: 2rem;
+            .music-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
             }
-        }
 
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
-        }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .music-player {
+                padding: 1rem;
+            }
+
+            .player-controls {
+                gap: 0.5rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Demo Banner -->
     <div class="demo-banner">
         🎵 <strong>Demo Mode:</strong> This is a demonstration version of INTERNITY MUSIC. All functionality is simulated for showcase purposes.
-        <a href="https://github.com/Abhisheksingh17cyber/internitymusic" target="_blank">View Source Code</a>
+        <a href="https://github.com/Abhisheksingh17cyber/internitymusic" target="_blank" style="color: #ffaa00; text-decoration: underline;">View Source Code</a>
     </div>
 
-    <!-- Landing Page -->
-    <div id="landingPage" class="page">
-        <section class="hero">
-            <div class="hero-content fade-in">
-                <div class="hero-icon">
-                    <i class="fas fa-music"></i>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo" onclick="showHome()">
+                <i class="fas fa-music"></i>
+                <span>INTERNITY MUSIC</span>
+            </div>
+            <div class="nav-actions">
+                <div class="search-container" id="searchContainer">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-box" placeholder="Search music, artists, albums..." id="searchBox">
                 </div>
-                <h1 class="hero-title">INTERNITY MUSIC</h1>
-                <p class="hero-subtitle">Premium Music Streaming Platform<br>Discover, Stream & Download High-Quality Music</p>
-                
-                <div class="cta-buttons">
-                    <button class="btn btn-primary" onclick="showAuthPage()">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Get Started
-                    </button>
-                    <button class="btn btn-secondary" onclick="showFeatures()">
-                        <i class="fas fa-info-circle"></i>
-                        Learn More
-                    </button>
+                <div class="user-menu hidden" id="userMenu" onclick="toggleUserMenu()">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userName">User</span>
+                    <i class="fas fa-chevron-down"></i>
                 </div>
             </div>
-        </section>
+        </nav>
+    </header>
 
-        <section class="features" id="features">
-            <div class="features-container">
-                <h2 class="features-title">Why Choose INTERNITY MUSIC?</h2>
-                
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-headphones"></i>
-                        </div>
-                        <h3 class="feature-title">High-Quality Streaming</h3>
-                        <p class="feature-description">Experience crystal clear audio with lossless quality streaming up to 320kbps for the ultimate listening experience.</p>
+    <!-- Auth Screen -->
+    <div class="auth-screen" id="authScreen">
+        <div class="auth-container">
+            <div class="welcome-icon">
+                <i class="fas fa-headphones"></i>
+            </div>
+            <h1 class="welcome-title">Welcome back!</h1>
+            <p class="welcome-subtitle">Sign in to your account to access premium music features</p>
+            
+            <div id="statusMessage" class="status-message"></div>
+            
+            <button class="oauth-button" id="googleSignIn">
+                <div class="google-icon"></div>
+                <span>Continue with Google</span>
+                <div class="loading-spinner" id="loadingSpinner"></div>
+            </button>
+
+            <div class="auth-features">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
+                    🎵 High-quality streaming<br>
+                    📱 Cross-platform sync<br>
+                    🚫 Ad-free experience
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container hidden" id="appContainer">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-menu">
+                <div class="menu-item active" onclick="showSection('library')">
+                    <i class="fas fa-music"></i>
+                    <span>Your Library</span>
+                </div>
+                <div class="menu-item" onclick="showSection('discover')">
+                    <i class="fas fa-compass"></i>
+                    <span>Discover</span>
+                </div>
+                <div class="menu-item" onclick="showSection('payments')">
+                    <i class="fas fa-credit-card"></i>
+                    <span>UPI Payments</span>
+                </div>
+                <div class="menu-item" onclick="showSection('playlists')">
+                    <i class="fas fa-list"></i>
+                    <span>Playlists</span>
+                </div>
+                <div class="menu-item" onclick="showSection('profile')">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </div>
+                <div class="menu-item" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Library Section -->
+            <div class="section active" id="librarySection">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">Your Library</h1>
+                        <p class="section-subtitle">Access your purchased music, playlists, and downloads</p>
                     </div>
+                    <button class="btn btn-primary" onclick="showSection('discover')">
+                        <i class="fas fa-plus"></i>
+                        Browse Music
+                    </button>
+                </div>
 
-                    <div class="feature-card">
-                        <div class="feature-icon">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="stat-number" id="totalTracks">0</div>
+                        <div class="stat-label">Total Tracks</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="stat-number" id="totalPlaylists">0</div>
+                        <div class="stat-label">Playlists</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
                             <i class="fas fa-download"></i>
                         </div>
-                        <h3 class="feature-title">Instant Downloads</h3>
-                        <p class="feature-description">Download your favorite tracks instantly with secure UPI payments and enjoy offline listening anywhere, anytime.</p>
+                        <div class="stat-number" id="totalDownloads">0</div>
+                        <div class="stat-label">Downloads</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-number" id="totalHours">0</div>
+                        <div class="stat-label">Hours Listened</div>
+                    </div>
+                </div>
+
+                <div class="music-grid" id="libraryGrid">
+                    <!-- Library items will be populated here -->
+                </div>
+            </div>
+
+            <!-- Discover Section -->
+            <div class="section" id="discoverSection">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">Discover Music</h1>
+                        <p class="section-subtitle">Browse 10,000+ tracks across all genres</p>
+                    </div>
+                </div>
+
+                <div class="genre-filters" id="genreFilters">
+                    <div class="genre-filter active" onclick="filterByGenre('all')">All</div>
+                    <div class="genre-filter" onclick="filterByGenre('pop')">Pop</div>
+                    <div class="genre-filter" onclick="filterByGenre('rock')">Rock</div>
+                    <div class="genre-filter" onclick="filterByGenre('hip-hop')">Hip Hop</div>
+                    <div class="genre-filter" onclick="filterByGenre('electronic')">Electronic</div>
+                    <div class="genre-filter" onclick="filterByGenre('classical')">Classical</div>
+                    <div class="genre-filter" onclick="filterByGenre('jazz')">Jazz</div>
+                    <div class="genre-filter" onclick="filterByGenre('bollywood')">Bollywood</div>
+                </div>
+
+                <div class="music-grid" id="discoverGrid">
+                    <!-- Music tracks will be populated here -->
+                </div>
+            </div>
+
+            <!-- Payments Section -->
+            <div class="section" id="paymentsSection">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">UPI Payments</h1>
+                        <p class="section-subtitle">Secure payments starting from ₹25 per track</p>
+                    </div>
+                </div>
+
+                <div class="payment-methods">
+                    <div class="payment-card">
+                        <div class="payment-header">
+                            <div class="payment-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div>
+                                <div class="payment-title">UPI Payment</div>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Pay with any UPI app</p>
+                            </div>
+                        </div>
+                        <ul class="payment-features">
+                            <li><i class="fas fa-check"></i> Instant payment processing</li>
+                            <li><i class="fas fa-check"></i> Support for all major UPI apps</li>
+                            <li><i class="fas fa-check"></i> Secure encrypted transactions</li>
+                            <li><i class="fas fa-check"></i> No additional charges</li>
+                        </ul>
+                        <button class="btn btn-primary" onclick="setupUPI()">
+                            <i class="fas fa-plus"></i>
+                            Setup UPI
+                        </button>
                     </div>
 
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
+                    <div class="payment-card">
+                        <div class="payment-header">
+                            <div class="payment-icon">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div>
+                                <div class="payment-title">Credit/Debit Card</div>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Visa, Mastercard, RuPay</p>
+                            </div>
                         </div>
-                        <h3 class="feature-title">Secure Payments</h3>
-                        <p class="feature-description">Safe and secure transactions with UPI integration, protecting your financial data with enterprise-grade security.</p>
+                        <ul class="payment-features">
+                            <li><i class="fas fa-check"></i> All major cards accepted</li>
+                            <li><i class="fas fa-check"></i> EMI options available</li>
+                            <li><i class="fas fa-check"></i> 3D Secure authentication</li>
+                            <li><i class="fas fa-check"></i> Save card for future use</li>
+                        </ul>
+                        <button class="btn btn-secondary" onclick="setupCard()">
+                            <i class="fas fa-plus"></i>
+                            Add Card
+                        </button>
                     </div>
 
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
+                    <div class="payment-card">
+                        <div class="payment-header">
+                            <div class="payment-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div>
+                                <div class="payment-title">Net Banking</div>
+                                <p style="color: var(--text-secondary); font-size: 0.9rem;">All major banks supported</p>
+                            </div>
                         </div>
-                        <h3 class="feature-title">Cross-Platform</h3>
-                        <p class="feature-description">Seamlessly sync across all your devices - web, mobile, and desktop with cloud synchronization.</p>
+                        <ul class="payment-features">
+                            <li><i class="fas fa-check"></i> 50+ banks supported</li>
+                            <li><i class="fas fa-check"></i> Secure bank-grade encryption</li>
+                            <li><i class="fas fa-check"></i> Direct bank transfer</li>
+                            <li><i class="fas fa-check"></i> Instant payment confirmation</li>
+                        </ul>
+                        <button class="btn btn-secondary" onclick="setupNetBanking()">
+                            <i class="fas fa-plus"></i>
+                            Setup Net Banking
+                        </button>
                     </div>
+                </div>
 
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <h3 class="feature-title">Made in India</h3>
-                        <p class="feature-description">Proudly supporting local artists and the Indian music industry with a platform built for Indian music lovers.</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-ban"></i>
-                        </div>
-                        <h3 class="feature-title">Ad-Free Experience</h3>
-                        <p class="feature-description">Enjoy uninterrupted music streaming without any advertisements or breaks in your listening experience.</p>
+                <div style="margin-top: 3rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-primary);">Recent Transactions</h3>
+                    <div id="transactionHistory">
+                        <!-- Transaction history will be populated here -->
                     </div>
                 </div>
             </div>
-        </section>
+
+            <!-- Playlists Section -->
+            <div class="section" id="playlistsSection">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">Your Playlists</h1>
+                        <p class="section-subtitle">Create and manage your music collections</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="createPlaylist()">
+                        <i class="fas fa-plus"></i>
+                        Create Playlist
+                    </button>
+                </div>
+
+                <div class="music-grid" id="playlistsGrid">
+                    <!-- Playlists will be populated here -->
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="section" id="profileSection">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">Profile Settings</h1>
+                        <p class="section-subtitle">Manage your account and preferences</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Account Info</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;" id="userEmail">user@example.com</p>
+                        </div>
+                        <button class="btn btn-secondary" onclick="editProfile()">Edit Profile</button>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div style="margin-bottom: 1rem;">
+                            <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Premium Plan</h3>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">Active until Dec 2024</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="upgradePlan()">Upgrade</button>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <!-- Authentication Page -->
-    <div id="authPage" class="page hidden">
-        <div class="auth-page">
-            <div class="auth-container fade-in">
-                <div class="welcome-icon">
-                    <i class="fas fa-headphones"></i>
-                </div>
-                <h1 class="welcome-title">Welcome back!</h1>
-                <p class="welcome-subtitle">Sign in to your account to access premium music features</p>
-                
-                <div id="statusMessage" class="status-message"></div>
-                
-                <button class="oauth-button" id="googleSignIn">
-                    <div class="google-icon"></div>
-                    <span>Continue with Google</span>
-                    <div class="loading-spinner" id="loadingSpinner"></div>
-                </button>
-
-                <button class="oauth-button" id="demoSignIn" style="background: var(--primary-gradient); border: none; margin-top: 0.5rem;">
-                    <i class="fas fa-play"></i>
-                    <span>Try Demo Mode</span>
-                </button>
-
-                <button class="oauth-button" onclick="showLandingPage()" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); margin-top: 0.5rem;">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Back to Home</span>
-                </button>
-
-                <div class="auth-features">
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
-                        🎵 High-quality streaming<br>
-                        📱 Cross-platform sync<br>
-                        🚫 Ad-free experience
-                    </p>
-                </div>
+    <!-- Music Player -->
+    <div class="music-player" id="musicPlayer">
+        <div class="player-info">
+            <div class="player-image">
+                <i class="fas fa-music"></i>
             </div>
+            <div class="player-details">
+                <h4 id="currentTrack">No track playing</h4>
+                <p id="currentArtist">Unknown Artist</p>
+            </div>
+        </div>
+        <div class="player-controls">
+            <button class="control-btn" onclick="previousTrack()">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="control-btn play-btn" onclick="togglePlay()" id="playPauseBtn">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="control-btn" onclick="nextTrack()">
+                <i class="fas fa-step-forward"></i>
+            </button>
+            <button class="control-btn" onclick="toggleShuffle()">
+                <i class="fas fa-random"></i>
+            </button>
+            <button class="control-btn" onclick="toggleRepeat()">
+                <i class="fas fa-redo"></i>
+            </button>
         </div>
     </div>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <i class="fas fa-music"></i> INTERNITY MUSIC
-            </div>
-            <p>&copy; 2024 INTERNITY MUSIC. All rights reserved. Made with ❤️ in India</p>
-        </div>
-    </footer>
 
     <script>
-        function showAuthPage() {
-            document.getElementById('landingPage').classList.add('hidden');
-            document.getElementById('authPage').classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
+        // Global App State
+        let currentUser = null;
+        let currentSection = 'library';
+        let currentTrack = null;
+        let isPlaying = false;
+        let userLibrary = JSON.parse(localStorage.getItem('userLibrary') || '[]');
+        let userPlaylists = JSON.parse(localStorage.getItem('userPlaylists') || '[]');
+        let currentFilter = 'all';
 
-        function showLandingPage() {
-            document.getElementById('authPage').classList.add('hidden');
-            document.getElementById('landingPage').classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
+        // Mock Music Data
+        const musicDatabase = [
+            { id: 1, title: "Blinding Lights", artist: "The Weeknd", genre: "pop", price: 25, duration: "3:20" },
+            { id: 2, title: "Shape of You", artist: "Ed Sheeran", genre: "pop", price: 25, duration: "3:53" },
+            { id: 3, title: "Bohemian Rhapsody", artist: "Queen", genre: "rock", price: 30, duration: "5:55" },
+            { id: 4, title: "Hotel California", artist: "Eagles", genre: "rock", price: 30, duration: "6:30" },
+            { id: 5, title: "God's Plan", artist: "Drake", genre: "hip-hop", price: 25, duration: "3:19" },
+            { id: 6, title: "HUMBLE.", artist: "Kendrick Lamar", genre: "hip-hop", price: 25, duration: "2:57" },
+            { id: 7, title: "One More Time", artist: "Daft Punk", genre: "electronic", price: 28, duration: "5:20" },
+            { id: 8, title: "Strobe", artist: "Deadmau5", genre: "electronic", price: 28, duration: "10:32" },
+            { id: 9, title: "Claire de Lune", artist: "Claude Debussy", genre: "classical", price: 35, duration: "4:50" },
+            { id: 10, title: "Symphony No. 9", artist: "Beethoven", genre: "classical", price: 35, duration: "12:30" },
+            { id: 11, title: "Tum Hi Ho", artist: "Arijit Singh", genre: "bollywood", price: 20, duration: "4:22" },
+            { id: 12, title: "Kal Ho Naa Ho", artist: "Sonu Nigam", genre: "bollywood", price: 20, duration: "5:26" },
+            { id: 13, title: "Take Five", artist: "Dave Brubeck", genre: "jazz", price: 30, duration: "5:24" },
+            { id: 14, title: "Blue in Green", artist: "Miles Davis", genre: "jazz", price: 30, duration: "5:37" }
+        ];
 
-        function showFeatures() {
-            document.getElementById('features').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
+        // Show status message
         function showStatus(message, type) {
             const statusEl = document.getElementById('statusMessage');
             statusEl.textContent = message;
@@ -616,6 +1194,7 @@
             }
         }
 
+        // Show loading state
         function setLoading(isLoading) {
             const button = document.getElementById('googleSignIn');
             const spinner = document.getElementById('loadingSpinner');
@@ -634,144 +1213,419 @@
             }
         }
 
-        function showWelcomePage() {
-            const container = document.querySelector('.auth-container');
-            container.innerHTML = `
-                <div class="welcome-icon">
-                    <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+        // Google OAuth Sign In
+        function initiateGoogleSignIn() {
+            setLoading(true);
+            showStatus('Connecting to Google (Demo Mode)...', 'loading');
+
+            // Simulate successful authentication
+            setTimeout(() => {
+                setLoading(false);
+                showStatus('Successfully connected! Loading dashboard...', 'success');
+                
+                // Simulate user data
+                currentUser = {
+                    id: '123456',
+                    name: 'Demo User',
+                    email: 'demo@internity.music',
+                    avatar: 'DU'
+                };
+                
+                setTimeout(() => {
+                    showDashboard();
+                }, 1500);
+            }, 2000);
+        }
+
+        // Show Dashboard
+        function showDashboard() {
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('appContainer').classList.remove('hidden');
+            document.getElementById('userMenu').classList.remove('hidden');
+            document.getElementById('searchContainer').classList.add('active');
+            
+            // Update user info
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userAvatar').textContent = currentUser.avatar;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            
+            // Initialize dashboard
+            updateLibraryStats();
+            loadDiscoverMusic();
+            loadUserPlaylists();
+            initializeSearch();
+        }
+
+        // Show specific section
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + 'Section').classList.add('active');
+            
+            // Add active class to selected menu item
+            event.target.closest('.menu-item').classList.add('active');
+            
+            currentSection = sectionName;
+            
+            // Load section-specific data
+            switch(sectionName) {
+                case 'library':
+                    loadUserLibrary();
+                    break;
+                case 'discover':
+                    loadDiscoverMusic();
+                    break;
+                case 'payments':
+                    loadTransactionHistory();
+                    break;
+                case 'playlists':
+                    loadUserPlaylists();
+                    break;
+            }
+        }
+
+        // Update Library Statistics
+        function updateLibraryStats() {
+            document.getElementById('totalTracks').textContent = userLibrary.length;
+            document.getElementById('totalPlaylists').textContent = userPlaylists.length;
+            document.getElementById('totalDownloads').textContent = userLibrary.filter(track => track.downloaded).length;
+            document.getElementById('totalHours').textContent = Math.floor(Math.random() * 100) + 50; // Mock data
+        }
+
+        // Load User Library
+        function loadUserLibrary() {
+            const grid = document.getElementById('libraryGrid');
+            
+            if (userLibrary.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-secondary);">
+                        <i class="fas fa-music" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3>Your library is empty</h3>
+                        <p>Start discovering music to build your collection</p>
+                        <button class="btn btn-primary" style="margin-top: 1rem;" onclick="showSection('discover')">
+                            Browse Music
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = userLibrary.map(track => createMusicCard(track, true)).join('');
+        }
+
+        // Load Discover Music
+        function loadDiscoverMusic() {
+            const grid = document.getElementById('discoverGrid');
+            const filteredMusic = currentFilter === 'all' 
+                ? musicDatabase 
+                : musicDatabase.filter(track => track.genre === currentFilter);
+            
+            grid.innerHTML = filteredMusic.map(track => createMusicCard(track, false)).join('');
+        }
+
+        // Create Music Card HTML
+        function createMusicCard(track, isOwned = false) {
+            const cardClass = isOwned ? 'music-card owned' : 'music-card';
+            const actionButton = isOwned 
+                ? `<button class="btn btn-primary" onclick="playTrack(${track.id})" style="width: 100%; margin-top: 0.5rem;">
+                     <i class="fas fa-play"></i> Play
+                   </button>`
+                : `<button class="btn btn-primary" onclick="purchaseTrack(${track.id})" style="width: 100%; margin-top: 0.5rem;">
+                     <i class="fas fa-shopping-cart"></i> ₹${track.price}
+                   </button>`;
+            
+            return `
+                <div class="${cardClass}" onclick="${isOwned ? `playTrack(${track.id})` : `showTrackDetails(${track.id})`}">
+                    <div class="card-image">
+                        <i class="fas fa-music"></i>
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">${track.title}</div>
+                        <div class="card-artist">${track.artist}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                            <span style="color: var(--text-muted); font-size: 0.8rem;">${track.duration}</span>
+                            ${isOwned ? '<span style="color: var(--success-color); font-size: 0.8rem;"><i class="fas fa-check"></i> Owned</span>' : `<span class="card-price">₹${track.price}</span>`}
+                        </div>
+                        ${actionButton}
+                    </div>
                 </div>
-                <h1 class="welcome-title">Welcome to INTERNITY MUSIC!</h1>
-                <p class="welcome-subtitle">Demo authentication successful! This showcases the complete user flow of the premium music streaming platform.</p>
-                <button class="oauth-button" onclick="showMusicDashboard()" style="background: var(--primary-gradient); border: none; margin-bottom: 1rem;">
-                    <i class="fas fa-music"></i>
-                    <span>Explore Music Dashboard</span>
-                </button>
-                <button class="oauth-button" onclick="showLandingPage()" style="background: transparent; border: 1px solid rgba(255,255,255,0.2);">
-                    <i class="fas fa-home"></i>
-                    <span>Back to Home</span>
-                </button>
             `;
         }
 
-        function showMusicDashboard() {
-            const container = document.querySelector('.auth-container');
-            container.innerHTML = `
-                <div class="welcome-icon">
-                    <i class="fas fa-music" style="color: var(--success-color);"></i>
-                </div>
-                <h1 class="welcome-title">Music Dashboard</h1>
-                <p class="welcome-subtitle">This is where users would access their music library, playlists, and streaming features in the full application.</p>
+        // Filter music by genre
+        function filterByGenre(genre) {
+            currentFilter = genre;
+            
+            // Update active filter
+            document.querySelectorAll('.genre-filter').forEach(filter => {
+                filter.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadDiscoverMusic();
+        }
+
+        // Purchase Track
+        function purchaseTrack(trackId) {
+            const track = musicDatabase.find(t => t.id === trackId);
+            if (!track) return;
+            
+            // Check if already owned
+            if (userLibrary.find(t => t.id === trackId)) {
+                showStatus('You already own this track!', 'error');
+                return;
+            }
+            
+            // Simulate payment process
+            showStatus('Processing payment...', 'loading');
+            
+            setTimeout(() => {
+                // Add to user library
+                userLibrary.push({...track, purchaseDate: new Date().toISOString(), downloaded: false});
+                localStorage.setItem('userLibrary', JSON.stringify(userLibrary));
                 
-                <div style="display: grid; gap: 1rem; margin: 2rem 0;">
-                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; text-align: left;">
-                        <h4 style="color: var(--success-color); margin-bottom: 0.5rem;">🎵 Your Library</h4>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Access your purchased music, playlists, and downloads</p>
+                // Add to transaction history
+                const transaction = {
+                    id: Date.now(),
+                    track: track.title,
+                    artist: track.artist,
+                    amount: track.price,
+                    date: new Date().toISOString(),
+                    method: 'UPI'
+                };
+                
+                let transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+                transactions.unshift(transaction);
+                localStorage.setItem('transactions', JSON.stringify(transactions));
+                
+                showStatus(`Successfully purchased "${track.title}"!`, 'success');
+                updateLibraryStats();
+                
+                // Refresh current view
+                if (currentSection === 'discover') {
+                    loadDiscoverMusic();
+                } else if (currentSection === 'library') {
+                    loadUserLibrary();
+                }
+            }, 2000);
+        }
+
+        // Play Track
+        function playTrack(trackId) {
+            const track = musicDatabase.find(t => t.id === trackId) || userLibrary.find(t => t.id === trackId);
+            if (!track) return;
+            
+            currentTrack = track;
+            isPlaying = true;
+            
+            // Update player
+            document.getElementById('currentTrack').textContent = track.title;
+            document.getElementById('currentArtist').textContent = track.artist;
+            document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-pause"></i>';
+            document.getElementById('musicPlayer').classList.add('active');
+            
+            showStatus(`Now playing: ${track.title}`, 'success');
+        }
+
+        // Toggle Play/Pause
+        function togglePlay() {
+            if (!currentTrack) return;
+            
+            isPlaying = !isPlaying;
+            const btn = document.getElementById('playPauseBtn');
+            btn.innerHTML = isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+        }
+
+        // Player Controls (stub functions for demo)
+        function previousTrack() {
+            showStatus('Previous track functionality coming soon!', 'loading');
+        }
+
+        function nextTrack() {
+            showStatus('Next track functionality coming soon!', 'loading');
+        }
+
+        function toggleShuffle() {
+            showStatus('Shuffle mode toggled!', 'success');
+        }
+
+        function toggleRepeat() {
+            showStatus('Repeat mode toggled!', 'success');
+        }
+
+        // Load User Playlists
+        function loadUserPlaylists() {
+            const grid = document.getElementById('playlistsGrid');
+            
+            if (userPlaylists.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-secondary);">
+                        <i class="fas fa-list" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3>No playlists yet</h3>
+                        <p>Create your first playlist to organize your music</p>
+                        <button class="btn btn-primary" style="margin-top: 1rem;" onclick="createPlaylist()">
+                            <i class="fas fa-plus"></i> Create Playlist
+                        </button>
                     </div>
-                    
-                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; text-align: left;">
-                        <h4 style="color: var(--success-color); margin-bottom: 0.5rem;">🔍 Discover</h4>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Browse 10,000+ tracks across all genres</p>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = userPlaylists.map(playlist => `
+                <div class="music-card" onclick="openPlaylist('${playlist.id}')">
+                    <div class="card-image" style="background: var(--secondary-gradient);">
+                        <i class="fas fa-list"></i>
                     </div>
-                    
-                    <div style="background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 10px; text-align: left;">
-                        <h4 style="color: var(--success-color); margin-bottom: 0.5rem;">💳 UPI Payments</h4>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Secure payments starting from ₹25 per track</p>
+                    <div class="card-content">
+                        <div class="card-title">${playlist.name}</div>
+                        <div class="card-artist">${playlist.tracks.length} tracks</div>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn btn-primary" style="width: 100%;" onclick="event.stopPropagation(); playPlaylist('${playlist.id}')">
+                                <i class="fas fa-play"></i> Play
+                            </button>
+                        </div>
                     </div>
                 </div>
+            `).join('');
+        }
+
+        // Create Playlist
+        function createPlaylist() {
+            const name = prompt('Enter playlist name:');
+            if (!name || name.trim() === '') return;
+            
+            const playlist = {
+                id: Date.now().toString(),
+                name: name.trim(),
+                tracks: [],
+                createdAt: new Date().toISOString()
+            };
+            
+            userPlaylists.push(playlist);
+            localStorage.setItem('userPlaylists', JSON.stringify(userPlaylists));
+            
+            showStatus(`Playlist "${name}" created successfully!`, 'success');
+            updateLibraryStats();
+            
+            if (currentSection === 'playlists') {
+                loadUserPlaylists();
+            }
+        }
+
+        // Load Transaction History
+        function loadTransactionHistory() {
+            const container = document.getElementById('transactionHistory');
+            const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+            
+            if (transactions.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        <i class="fas fa-receipt" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>No transactions yet</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = transactions.slice(0, 10).map(transaction => `
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--card-bg); border-radius: 10px; margin-bottom: 1rem; border: 1px solid var(--border-color);">
+                    <div>
+                        <div style="font-weight: 600; margin-bottom: 0.2rem;">${transaction.track}</div>
+                        <div style="color: var(--text-secondary); font-size: 0.9rem;">${transaction.artist} • ${new Date(transaction.date).toLocaleDateString()}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 600; color: var(--success-color);">₹${transaction.amount}</div>
+                        <div style="color: var(--text-secondary); font-size: 0.8rem;">${transaction.method}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Stub functions for demo
+        function setupUPI() { showStatus('UPI setup functionality coming soon!', 'loading'); }
+        function setupCard() { showStatus('Card setup functionality coming soon!', 'loading'); }
+        function setupNetBanking() { showStatus('Net Banking setup functionality coming soon!', 'loading'); }
+        function editProfile() { showStatus('Profile editing functionality coming soon!', 'loading'); }
+        function upgradePlan() { showStatus('Plan upgrade functionality coming soon!', 'loading'); }
+        function toggleUserMenu() { showStatus('User menu functionality coming soon!', 'loading'); }
+
+        // Search Functionality
+        function initializeSearch() {
+            const searchBox = document.getElementById('searchBox');
+            searchBox.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                if (query.length < 2) return;
                 
-                <button class="oauth-button" onclick="showLandingPage()" style="background: var(--primary-gradient); border: none;">
-                    <i class="fas fa-home"></i>
-                    <span>Back to Home</span>
-                </button>
-            `;
+                const results = musicDatabase.filter(track => 
+                    track.title.toLowerCase().includes(query) ||
+                    track.artist.toLowerCase().includes(query) ||
+                    track.genre.toLowerCase().includes(query)
+                );
+                
+                console.log('Search results:', results);
+            });
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = null;
+                currentTrack = null;
+                isPlaying = false;
+                
+                document.getElementById('authScreen').classList.remove('hidden');
+                document.getElementById('appContainer').classList.add('hidden');
+                document.getElementById('userMenu').classList.add('hidden');
+                document.getElementById('searchContainer').classList.remove('active');
+                document.getElementById('musicPlayer').classList.remove('active');
+                
+                showStatus('Logged out successfully!', 'success');
+            }
+        }
+
+        function showHome() {
+            if (currentUser) {
+                showSection('library');
+            }
         }
 
         // Event Listeners
+        document.getElementById('googleSignIn').addEventListener('click', initiateGoogleSignIn);
+
+        // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('googleSignIn').addEventListener('click', function() {
-                setLoading(true);
-                showStatus('Connecting to Google (Demo Mode)...', 'loading');
-                
-                setTimeout(() => {
-                    setLoading(false);
-                    showStatus('Demo authentication successful!', 'success');
-                    setTimeout(showWelcomePage, 2000);
-                }, 2000);
-            });
+            // Add some sample data for demo
+            if (userLibrary.length === 0) {
+                userLibrary.push(
+                    {...musicDatabase[0], purchaseDate: new Date().toISOString(), downloaded: true},
+                    {...musicDatabase[2], purchaseDate: new Date().toISOString(), downloaded: false}
+                );
+                localStorage.setItem('userLibrary', JSON.stringify(userLibrary));
+            }
 
-            document.getElementById('demoSignIn').addEventListener('click', function() {
-                showStatus('Entering demo mode...', 'loading');
-                setTimeout(() => {
-                    showStatus('Demo mode activated!', 'success');
-                    setTimeout(showWelcomePage, 2000);
-                }, 1500);
-            });
-
-            // Add ripple effect to buttons
-            document.querySelectorAll('.oauth-button, .btn').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.cssText = `
-                        position: absolute;
-                        width: ${size}px;
-                        height: ${size}px;
-                        left: ${x}px;
-                        top: ${y}px;
-                        background: rgba(255, 255, 255, 0.1);
-                        border-radius: 50%;
-                        transform: scale(0);
-                        animation: ripple 0.6s ease-out;
-                        pointer-events: none;
-                    `;
-                    
-                    this.appendChild(ripple);
-                    setTimeout(() => ripple.remove(), 600);
+            if (userPlaylists.length === 0) {
+                userPlaylists.push({
+                    id: 'demo-playlist',
+                    name: 'My Favorites',
+                    tracks: [musicDatabase[0].id, musicDatabase[2].id],
+                    createdAt: new Date().toISOString()
                 });
-            });
+                localStorage.setItem('userPlaylists', JSON.stringify(userPlaylists));
+            }
 
-            // Add CSS for ripple animation
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes ripple {
-                    to {
-                        transform: scale(2);
-                        opacity: 0;
-                    }
-                }
-                .oauth-button, .btn {
-                    position: relative;
-                    overflow: hidden;
-                }
-            `;
-            document.head.appendChild(style);
-
-            // Animate feature cards on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            // Initially hide feature cards
-            document.querySelectorAll('.feature-card').forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-                observer.observe(card);
-            });
+            console.log('🎵 INTERNITY MUSIC Dashboard loaded successfully!');
         });
     </script>
 
