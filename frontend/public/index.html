@@ -728,7 +728,7 @@
                     <i class="fas fa-user"></i>
                     <div>
                         <div style="font-size: 0.9rem;">Free User</div>
-                        <div style="font-size: 0.7rem; color: var(--text-secondary);">Stream with ads</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">Ad-free streaming</div>
                     </div>
                 </div>
             </div>
@@ -752,15 +752,7 @@
                 </div>
             </div>
 
-            <!-- Pure Free Music - No Ads Ever! -->
-            <div style="display: none;" id="adBanner">
-                <div class="ad-timer" id="adTimer">5s</div>
-                <div class="ad-content">
-                    <h3>� Free Music for Everyone!</h3>
-                    <p>Enjoying our global music collection? Consider supporting us to keep it free for all!</p>
-                    <button class="skip-ad" id="skipAd">Continue Listening</button>
-                </div>
-            </div>
+            <!-- Pure Free Music - No Ads Ever! (Ad markup removed) -->
 
             <!-- Genre Filter -->
             <div class="genre-filter">
@@ -853,9 +845,7 @@
             repeat: false,
             queue: [],
             currentIndex: -1,
-            freeUser: true,
-            adFreePlays: 3, // Free users get 3 ad-free plays, then ads
-            adsWatched: 0
+            freeUser: true
         };
 
         // Global music library with diverse international content
@@ -1095,9 +1085,7 @@
         const musicGrid = document.getElementById('musicGrid');
         const searchInput = document.getElementById('searchInput');
         const genreButtons = document.querySelectorAll('.genre-btn');
-        const adBanner = document.getElementById('adBanner');
-        const skipAd = document.getElementById('skipAd');
-        const adTimer = document.getElementById('adTimer');
+    // Ad elements removed for ad-free experience
         const sidebar = document.getElementById('sidebar');
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 
@@ -1110,14 +1098,14 @@
             updateVolumeDisplay();
             
             // Show welcome message
-            showToast('Welcome to INTERNITY MUSIC! 🎵 Stream unlimited music for free with ads.', 'success');
+            showToast('Welcome to INTERNITY MUSIC! 🎵 Stream unlimited music for free with no ads.', 'success');
             
-            // Demo: Show ad after 10 seconds to demonstrate ad system
+            // Tip: Encourage user to play a song after a short delay
             setTimeout(() => {
-                if (AppState.freeUser && !audioPlayer.classList.contains('active')) {
-                    showToast('💡 Try streaming a song to see our freemium model in action!', 'info');
+                if (!audioPlayer.classList.contains('active')) {
+                    showToast('💡 Tip: Click any song card to start listening!', 'info');
                 }
-            }, 10000);
+            }, 8000);
         }
 
         // Render music grid
@@ -1223,8 +1211,7 @@
                 btn.addEventListener('click', handleGenreFilter);
             });
 
-            // Ad controls
-            skipAd.addEventListener('click', skipAdvertisement);
+            // No ad controls (ad-free)
 
             // Close mobile menu when clicking outside
             document.addEventListener('click', (e) => {
@@ -1259,8 +1246,8 @@
                 case 'downloads':
                     renderDownloadsSection();
                     break;
-                case 'support':
-                    renderSupportSection();
+                case 'free':
+                    renderDiscoverSection();
                     break;
                 default:
                     renderDiscoverSection();
@@ -1322,27 +1309,7 @@
             }, { once: true });
         }
 
-        // Handle support action
-        function handleSupport(song) {
-            if (confirm(`Love "${song.title}" by ${song.artist}?\n\n� Would you like to support the artist and our platform?`)) {
-                showDonationModal();
-            }
-                
-                setTimeout(() => {
-                    // Simulate successful purchase
-                    showToast(`✅ Successfully purchased "${song.title}"! Check your downloads.`, 'success');
-                    
-                    // Add to downloads (simulate)
-                    let downloads = JSON.parse(localStorage.getItem('downloads') || '[]');
-                    downloads.push({
-                        ...song,
-                        purchaseDate: new Date().toISOString(),
-                        downloadUrl: song.stream_url
-                    });
-                    localStorage.setItem('downloads', JSON.stringify(downloads));
-                }, 2000);
-            }
-        }
+        // (Support action removed - no donations)
 
         // Pure free streaming - no ads ever needed!
 
@@ -1569,69 +1536,7 @@
             }
         }
 
-        function renderSupportSection() {
-            document.getElementById('content').innerHTML = `
-                <h2 class="section-title">❤️ Support Us</h2>
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; margin-bottom: 2rem; text-align: center;">
-                        <h3 style="color: var(--accent); margin-bottom: 1rem; font-size: 2rem;">� INTERNITY MUSIC - Free for All</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.1rem;">
-                            We believe music should be free for everyone, everywhere. Help us keep it that way!
-                        </p>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin: 2rem 0;">
-                            <div style="text-align: center; padding: 1rem;">
-                                <i class="fas fa-globe" style="font-size: 2rem; color: var(--accent); margin-bottom: 0.5rem;"></i>
-                                <h4>Global Music</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Music from every culture</p>
-                            </div>
-                            <div style="text-align: center; padding: 1rem;">
-                                <i class="fas fa-heart" style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem;"></i>
-                                <h4>Always Free</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">No payment required</p>
-                            </div>
-                            <div style="text-align: center; padding: 1rem;">
-                                <i class="fas fa-headphones" style="font-size: 2rem; color: var(--warning); margin-bottom: 0.5rem;"></i>
-                                <h4>High Quality Audio</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Great sound quality</p>
-                            </div>
-                            <div style="text-align: center; padding: 1rem;">
-                                <i class="fas fa-users" style="font-size: 2rem; color: var(--error); margin-bottom: 0.5rem;"></i>
-                                <h4>Community Driven</h4>
-                                <p style="color: var(--text-secondary); font-size: 0.9rem;">Supported by users</p>
-                            </div>
-                        </div>
-                        
-                        <div style="background: var(--gradient); padding: 2rem; border-radius: 10px; color: white; margin: 2rem 0;">
-                            <h3 style="margin-bottom: 1rem;">🎁 Support with Love</h3>
-                            <p style="margin-bottom: 2rem;">Your donations help us maintain this free platform for music lovers worldwide!</p>
-                            <button onclick="showDonationModal()" 
-                                    style="background: white; color: var(--primary); border: none; padding: 1rem 2rem; border-radius: 25px; cursor: pointer; font-weight: bold; margin-right: 1rem;">
-                                💝 Donate Now
-                            </button>
-                            <button onclick="showToast('Thank you for using our free platform! 🎵', 'success')" 
-                                    style="background: rgba(255,255,255,0.2); color: white; border: 2px solid white; padding: 1rem 2rem; border-radius: 25px; cursor: pointer; font-weight: bold;">
-                                Keep Using Free
-                            </button>
-                        </div>
-                        
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                            Your support helps maintain this free platform for everyone worldwide.
-                        </p>
-                    </div>
-                    
-                    <div style="background: var(--card-bg); padding: 1.5rem; border-radius: 10px; margin-top: 2rem;">
-                        <h4 style="color: var(--accent); margin-bottom: 1rem;">� Our Mission:</h4>
-                        <ul style="color: var(--text-secondary); list-style-type: none; padding: 0;">
-                            <li style="margin-bottom: 0.5rem;">🎵 Free music streaming for everyone</li>
-                            <li style="margin-bottom: 0.5rem;">🌍 Global music from all cultures</li>
-                            <li style="margin-bottom: 0.5rem;">❤️ Community-supported platform</li>
-                            <li style="margin-bottom: 0.5rem;">🎁 No forced payments, ever</li>
-                        </ul>
-                    </div>
-                </div>
-            `;
-        }
+        // (Support section removed - no donations, fully free)
 
         // Utility functions
         function formatTime(seconds) {
@@ -1707,9 +1612,9 @@
         window.AppState = AppState;
         window.startPlayback = startPlayback;
 
-        console.log('🎵 INTERNITY MUSIC - Complete Freemium Streaming Platform Ready!');
+        console.log('🎵 INTERNITY MUSIC - Ad-Free Streaming Platform Ready!');
         console.log('Features:');
-        // Pure free music platform - no payments needed!
+        // Pure free music platform - no payments or ads needed!
 
         // Toggle like button
         function toggleLike(songId) {
@@ -1741,8 +1646,8 @@
         console.log('✅ Global music from all cultures');  
         console.log('✅ Full music player with controls');
         console.log('✅ Genre filtering and search');
-        console.log('✅ Optional donation system');
-        console.log('✅ Community-supported platform');
+        console.log('✅ Completely ad-free experience');
+        console.log('✅ No payments or donations required');
         console.log('✅ Mobile responsive design');
     </script>
 </body>
