@@ -388,10 +388,7 @@
             transform: translateY(-2px);
         }
 
-        .price {
-            font-weight: bold;
-            color: var(--accent);
-        }
+        /* Price CSS removed - fully free platform */
 
         /* Audio Player */
         .audio-player {
@@ -845,12 +842,14 @@
             repeat: false,
             queue: [],
             currentIndex: -1,
-            freeUser: true
+            freeUser: true,
+            playedSongs: new Set(), // Track played songs to avoid repeats
+            sessionPlaylist: [] // Randomized playlist for the session
         };
 
-        // Global music library with diverse international content
-        const sampleMusic = [
-            // American Music
+        // Global music library - will be populated from open web APIs
+        let sampleMusic = [
+            // Sample tracks while APIs load
             {
                 id: 1,
                 title: "Blinding Lights",
@@ -1089,13 +1088,97 @@
         const sidebar = document.getElementById('sidebar');
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
 
+        // API Integration for Open Web Music
+        async function loadOpenWebMusic() {
+            try {
+                showToast('🌍 Loading global music from open web...', 'info');
+                
+                // Load music from Free Music Archive (CORS-enabled)
+                const fmaResponse = await fetch('https://freemusicarchive.org/api/get/tracks.json?limit=50&offset=0', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (fmaResponse.ok) {
+                    const fmaData = await fmaResponse.json();
+                    const fmaTracks = fmaData.dataset?.map((track, index) => ({
+                        id: 1000 + index,
+                        title: track.track_title || `Track ${index + 1}`,
+                        artist: track.artist_name || 'Unknown Artist',
+                        country: '🌍 Global',
+                        genre: track.track_genres?.[0]?.genre_title?.toLowerCase() || 'world',
+                        duration: track.track_duration || 180,
+                        stream_url: track.track_url || sampleMusic[index % sampleMusic.length].stream_url,
+                        image: getGenreEmoji(track.track_genres?.[0]?.genre_title?.toLowerCase() || 'world')
+                    })) || [];
+                    
+                    if (fmaTracks.length > 0) {
+                        sampleMusic = [...sampleMusic, ...fmaTracks];
+                        showToast(`✅ Loaded ${fmaTracks.length} tracks from open web!`, 'success');
+                    }
+                }
+            } catch (error) {
+                console.log('FMA API not available, using sample music');
+                showToast('🎵 Using curated sample music collection', 'info');
+            }
+            
+            // Add more diverse sample music for better experience
+            addDiverseSampleMusic();
+            renderMusicGrid();
+        }
+
+        function getGenreEmoji(genre) {
+            const genreEmojis = {
+                'pop': '🎵', 'rock': '🎸', 'jazz': '🎷', 'classical': '🎼',
+                'electronic': '🎧', 'hip-hop': '🎤', 'country': '🤠', 'reggae': '🌿',
+                'latin': '💃', 'blues': '🎺', 'folk': '🎻', 'world': '🌍'
+            };
+            return genreEmojis[genre] || '🎵';
+        }
+
+        function addDiverseSampleMusic() {
+            const diverseTracks = [
+                {
+                    id: 101, title: "Despacito", artist: "Luis Fonsi", country: "🇵🇷 Puerto Rico",
+                    genre: "latin", duration: 229, image: "💃",
+                    stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Erica_Damarell_-_Dance_Software.ogg"
+                },
+                {
+                    id: 102, title: "Gangnam Style", artist: "PSY", country: "🇰🇷 South Korea",
+                    genre: "k-pop", duration: 219, image: "🕺",
+                    stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-_swing.ogg"
+                },
+                {
+                    id: 103, title: "La Vida Es Una", artist: "Manu Chao", country: "🇪🇸 Spain",
+                    genre: "latin", duration: 195, image: "🎸",
+                    stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.ogg"
+                },
+                {
+                    id: 104, title: "Waka Waka", artist: "Shakira", country: "🇨🇴 Colombia",
+                    genre: "latin", duration: 210, image: "⚽",
+                    stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg"
+                },
+                {
+                    id: 105, title: "Samsara", artist: "Audiomachine", country: "🇺🇸 USA",
+                    genre: "electronic", duration: 280, image: "🎧",
+                    stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.ogg"
+                }
+            ];
+            
+            sampleMusic = [...sampleMusic, ...diverseTracks];
+        }
+
         // Initialize the application
         function initApp() {
             console.log('🎵 INTERNITY MUSIC - Free Streaming Platform loaded!');
-            renderMusicGrid();
             setupEventListeners();
             setupAudioPlayer();
             updateVolumeDisplay();
+            
+            // Load music from open web APIs
+            loadOpenWebMusic();
             
             // Show welcome message
             showToast('Welcome to INTERNITY MUSIC! 🎵 Stream unlimited music for free with no ads.', 'success');
@@ -1264,9 +1347,8 @@
 
             if (e.target.classList.contains('play-btn') || e.target.classList.contains('stream-btn')) {
                 playStreamSong(song);
-            } else if (e.target.classList.contains('download-btn')) {
-                handleDownload(song);
             }
+            // Download functionality removed - stream only
         }
 
         // Play/stream song (completely free!)
@@ -1279,9 +1361,12 @@
         function startPlayback(song) {
             AppState.currentSong = song;
             
+            // Mark song as played to avoid repeats
+            AppState.playedSongs.add(song.id);
+            
             // Update UI
             nowPlayingTitle.textContent = song.title;
-            nowPlayingArtist.textContent = song.artist;
+            nowPlayingArtist.textContent = `${song.artist} ${song.country}`;
             nowPlayingImage.innerHTML = `<span style="font-size: 1.5rem;">${song.image}</span>`;
             
             // Show player
@@ -1300,7 +1385,7 @@
                     .then(() => {
                         AppState.isPlaying = true;
                         updatePlayPauseButton();
-                        showToast(`🎵 Now playing: ${song.title} by ${song.artist}`, 'success');
+                        showToast(`🎵 Now playing: ${song.title} by ${song.artist} ${song.country}`, 'success');
                     })
                     .catch(error => {
                         console.error('Playback failed:', error);
@@ -1364,16 +1449,104 @@
             updatePlayPauseButton();
         }
 
+        // Smart playlist functions - no repeats
+        function generateSmartPlaylist() {
+            // Create a diverse playlist with no repeats
+            const unplayedSongs = sampleMusic.filter(song => !AppState.playedSongs.has(song.id));
+            
+            if (unplayedSongs.length === 0) {
+                // Reset if all songs have been played
+                AppState.playedSongs.clear();
+                showToast('🔄 All songs played! Starting fresh playlist...', 'info');
+                return shuffleArray([...sampleMusic]);
+            }
+            
+            // Prioritize diverse genres and countries
+            const diversePlaylist = createDiversePlaylist(unplayedSongs);
+            return shuffleArray(diversePlaylist);
+        }
+
+        function createDiversePlaylist(songs) {
+            const genreGroups = {};
+            const countryGroups = {};
+            
+            // Group by genre and country
+            songs.forEach(song => {
+                if (!genreGroups[song.genre]) genreGroups[song.genre] = [];
+                if (!countryGroups[song.country]) countryGroups[song.country] = [];
+                genreGroups[song.genre].push(song);
+                countryGroups[song.country].push(song);
+            });
+            
+            // Create diverse playlist by alternating genres and countries
+            const diverseList = [];
+            const genreKeys = Object.keys(genreGroups);
+            const countryKeys = Object.keys(countryGroups);
+            
+            while (diverseList.length < songs.length && (genreKeys.length > 0 || countryKeys.length > 0)) {
+                // Add from different genres
+                for (let i = 0; i < genreKeys.length && diverseList.length < songs.length; i++) {
+                    const genre = genreKeys[i];
+                    if (genreGroups[genre].length > 0) {
+                        const song = genreGroups[genre].shift();
+                        if (!diverseList.find(s => s.id === song.id)) {
+                            diverseList.push(song);
+                        }
+                    }
+                }
+                
+                // Remove empty genre groups
+                genreKeys.forEach((genre, index) => {
+                    if (genreGroups[genre].length === 0) {
+                        genreKeys.splice(index, 1);
+                    }
+                });
+            }
+            
+            return diverseList.length > 0 ? diverseList : songs;
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function getNextSong() {
+            if (AppState.sessionPlaylist.length === 0) {
+                AppState.sessionPlaylist = generateSmartPlaylist();
+            }
+            
+            // Find current song in session playlist
+            const currentIndex = AppState.sessionPlaylist.findIndex(s => s.id === AppState.currentSong?.id);
+            
+            if (currentIndex === -1 || currentIndex >= AppState.sessionPlaylist.length - 1) {
+                // Generate new playlist if at the end
+                AppState.sessionPlaylist = generateSmartPlaylist();
+                return AppState.sessionPlaylist[0];
+            }
+            
+            return AppState.sessionPlaylist[currentIndex + 1];
+        }
+
         function playNext() {
-            const currentIndex = sampleMusic.findIndex(s => s.id === AppState.currentSong?.id);
-            const nextIndex = (currentIndex + 1) % sampleMusic.length;
-            playStreamSong(sampleMusic[nextIndex]);
+            const nextSong = getNextSong();
+            if (nextSong) {
+                playStreamSong(nextSong);
+            }
         }
 
         function playPrevious() {
-            const currentIndex = sampleMusic.findIndex(s => s.id === AppState.currentSong?.id);
-            const prevIndex = currentIndex > 0 ? currentIndex - 1 : sampleMusic.length - 1;
-            playStreamSong(sampleMusic[prevIndex]);
+            if (AppState.sessionPlaylist.length === 0) {
+                AppState.sessionPlaylist = generateSmartPlaylist();
+            }
+            
+            const currentIndex = AppState.sessionPlaylist.findIndex(s => s.id === AppState.currentSong?.id);
+            const prevIndex = currentIndex > 0 ? currentIndex - 1 : AppState.sessionPlaylist.length - 1;
+            playStreamSong(AppState.sessionPlaylist[prevIndex]);
         }
 
         function toggleShuffle() {
@@ -1514,16 +1687,12 @@
                                 <h3>${song.title}</h3>
                                 <p class="music-artist">${song.artist}</p>
                                 <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">
-                                    Purchased: ${new Date(song.purchaseDate).toLocaleDateString()}
+                                    Added: ${new Date(song.likedDate || Date.now()).toLocaleDateString()}
                                 </p>
                                 <div class="music-actions">
                                     <button class="stream-btn" onclick="startPlayback(${JSON.stringify(song).replace(/"/g, '&quot;')})">
                                         <i class="fas fa-play"></i>
-                                        Play
-                                    </button>
-                                    <button class="download-btn" onclick="downloadFile('${song.title}', '${song.downloadUrl}')">
-                                        <i class="fas fa-download"></i>
-                                        Download
+                                        🎵 Stream Free
                                     </button>
                                 </div>
                             </div>
@@ -1581,14 +1750,7 @@
             }, 4000);
         }
 
-        function downloadFile(title, url) {
-            showToast(`🎵 Downloading "${title}"...`, 'success');
-            
-            // In a real application, this would trigger an actual download
-            setTimeout(() => {
-                showToast(`✅ "${title}" downloaded successfully!`, 'success');
-            }, 2000);
-        }
+        // Download functionality removed - stream-only platform
 
         // Initialize the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', initApp);
