@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INTERNITY MUSIC - Free Music Streaming Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #7c4dff;
+            --accent-hover: #6639ef;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --background: #0f0f1a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --ad-bg: #ff6b6b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: var(--secondary);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.mobile-hidden {
+            transform: translateX(-100%);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .nav-menu {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+            padding-bottom: 120px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            background: var(--card-bg);
+            border: 1px solid transparent;
+            border-radius: 25px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            background: var(--glass-bg);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background: var(--card-bg);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Genre Filter */
+        .genre-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .genre-btn {
+            padding: 0.5rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid transparent;
+            border-radius: 25px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .genre-btn:hover, .genre-btn.active {
+            background: var(--accent);
+            color: var(--text-primary);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Music Grid */
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .music-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .music-card:hover {
+            transform: translateY(-8px);
+            background: var(--glass-bg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .music-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .music-card:hover::before {
+            opacity: 1;
+        }
+
+        .music-image {
+            width: 100%;
+            height: 200px;
+            background: var(--gradient);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .music-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-btn {
+            background: var(--accent);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            background: var(--accent-hover);
+            transform: scale(1.1);
+        }
+
+        .music-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        .music-artist {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .music-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .stream-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stream-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .like-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .like-btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .like-btn.liked {
+            background: #e91e63;
+        }
+
+        .donate-btn {
+            background: var(--warning);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+        }
+
+        .donate-btn:hover {
+            background: #f57f17;
+            transform: translateY(-2px);
+        }
+
+        .price {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* Audio Player */
+        .audio-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--secondary);
+            padding: 1rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: none;
+        }
+
+        .audio-player.active {
+            display: block;
+        }
+
+        .player-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .now-playing {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 250px;
+        }
+
+        .now-playing-image {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .now-playing-info h4 {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .now-playing-info p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .player-controls {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: var(--card-bg);
+            transform: scale(1.1);
+        }
+
+        .control-btn.play-pause {
+            background: var(--accent);
+            font-size: 1rem;
+            width: 40px;
+            height: 40px;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .time {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            min-width: 40px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 150px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .volume-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            width: 70%;
+        }
+
+        /* Pure Free Music Platform - No Ads Needed! */
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.mobile-visible {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .music-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .player-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .genre-filter {
+                gap: 0.5rem;
+            }
+
+            .genre-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Loading States */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Music Features */
+        .free-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--success);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .country-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--secondary);
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--error);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-music"></i>
+                <span>INTERNITY MUSIC</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-section="discover">
+                        <i class="fas fa-compass"></i>
+                        <span>Discover</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="library">
+                        <i class="fas fa-music"></i>
+                        <span>Your Library</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="playlists">
+                        <i class="fas fa-list"></i>
+                        <span>Playlists</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="downloads">
+                        <i class="fas fa-heart"></i>
+                        <span>Liked Songs</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="free">
+                        <i class="fas fa-globe"></i>
+                        <span>Free Music</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div style="margin-top: auto; padding-top: 2rem;">
+                <div class="nav-link" style="background: var(--card-bg); margin-bottom: 1rem;">
+                    <i class="fas fa-user"></i>
+                    <div>
+                        <div style="font-size: 0.9rem;">Free User</div>
+                        <div style="font-size: 0.7rem; color: var(--text-secondary);">Ad-free streaming</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search for music, artists, albums..." id="searchInput">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="user-avatar">FU</div>
+                    <span>Free User</span>
+                </div>
+            </div>
+
+            <!-- Pure Free Music - No Ads Ever! (Ad markup removed) -->
+
+            <!-- Genre Filter -->
+            <div class="genre-filter">
+                <button class="genre-btn active" data-genre="all">🌍 All World</button>
+                <button class="genre-btn" data-genre="pop">🎵 Pop</button>
+                <button class="genre-btn" data-genre="rock">🎸 Rock</button>
+                <button class="genre-btn" data-genre="bollywood">🇮🇳 Bollywood</button>
+                <button class="genre-btn" data-genre="k-pop">🇰🇷 K-Pop</button>
+                <button class="genre-btn" data-genre="latin">💃 Latin</button>
+                <button class="genre-btn" data-genre="afrobeat">🌍 Afrobeat</button>
+                <button class="genre-btn" data-genre="electronic">🎧 Electronic</button>
+                <button class="genre-btn" data-genre="jazz">🎷 Jazz</button>
+                <button class="genre-btn" data-genre="classical">🎼 Classical</button>
+                <button class="genre-btn" data-genre="arabic">🕌 Arabic</button>
+                <button class="genre-btn" data-genre="reggae">🌿 Reggae</button>
+            </div>
+
+            <!-- Music Content -->
+            <div id="content">
+                <h2 class="section-title">🔥 Trending Now</h2>
+                <div class="music-grid" id="musicGrid">
+                    <!-- Music cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Player -->
+        <div class="audio-player" id="audioPlayer">
+            <div class="player-content">
+                <div class="now-playing">
+                    <div class="now-playing-image" id="nowPlayingImage">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div class="now-playing-info">
+                        <h4 id="nowPlayingTitle">Select a song</h4>
+                        <p id="nowPlayingArtist">No song playing</p>
+                    </div>
+                </div>
+
+                <div class="player-controls">
+                    <div class="control-buttons">
+                        <button class="control-btn" id="shuffleBtn">
+                            <i class="fas fa-random"></i>
+                        </button>
+                        <button class="control-btn" id="prevBtn">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="control-btn play-pause" id="playPauseBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="control-btn" id="nextBtn">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                        <button class="control-btn" id="repeatBtn">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <span class="time" id="currentTime">0:00</span>
+                        <div class="progress-bar" id="progressBar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <span class="time" id="totalTime">0:00</span>
+                    </div>
+                </div>
+
+                <div class="volume-control">
+                    <i class="fas fa-volume-up"></i>
+                    <div class="volume-slider" id="volumeSlider">
+                        <div class="volume-fill" id="volumeFill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio element for playback -->
+    <audio id="audioElement" preload="metadata"></audio>
+
+    <script>
+        // Application State
+        const AppState = {
+            currentSong: null,
+            isPlaying: false,
+            currentTime: 0,
+            duration: 0,
+            volume: 0.7,
+            shuffle: false,
+            repeat: false,
+            queue: [],
+            currentIndex: -1,
+            freeUser: true
+        };
+
+        // Global music library with diverse international content
+        const sampleMusic = [
+            // American Music
+            {
+                id: 1,
+                title: "Blinding Lights",
+                artist: "The Weeknd",
+                country: "🇺🇸 USA",
+                genre: "pop",
+                duration: 200,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-_swing.ogg",
+                image: "🌟"
+            },
+            {
+                id: 2,
+                title: "Bohemian Rhapsody",
+                artist: "Queen",
+                country: "🇬🇧 UK",
+                genre: "rock",
+                duration: 355,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a",
+                image: "👑"
+            },
+            {
+                id: 3,
+                title: "Shape of You",
+                artist: "Ed Sheeran",
+                country: "🇬🇧 UK",
+                genre: "pop",
+                duration: 233,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.ogg",
+                image: "🎵"
+            },
+            // Indian/Bollywood Music
+            {
+                id: 4,
+                title: "Kal Ho Naa Ho",
+                artist: "Sonu Nigam",
+                country: "🇮🇳 India",
+                genre: "bollywood",
+                duration: 278,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+                image: "🇮🇳"
+            },
+            {
+                id: 5,
+                title: "Tum Hi Ho",
+                artist: "Arijit Singh",
+                country: "🇮🇳 India",
+                genre: "bollywood",
+                duration: 258,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.ogg",
+                image: "💕"
+            },
+            {
+                id: 6,
+                title: "Vande Mataram",
+                artist: "A.R. Rahman",
+                country: "🇮🇳 India",
+                genre: "patriotic",
+                duration: 245,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-_swing.ogg",
+                image: "🕉️"
+            },
+            // Latin Music
+            {
+                id: 7,
+                title: "Despacito",
+                artist: "Luis Fonsi ft. Daddy Yankee",
+                country: "🇪🇸 Spain",
+                genre: "latin",
+                duration: 229,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a",
+                image: "💃"
+            },
+            {
+                id: 8,
+                title: "La Vida Es Un Carnaval",
+                artist: "Celia Cruz",
+                country: "🇨🇺 Cuba",
+                genre: "salsa",
+                duration: 245,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.ogg",
+                image: "🎺"
+            },
+            // K-Pop
+            {
+                id: 9,
+                title: "Dynamite",
+                artist: "BTS",
+                country: "🇰🇷 South Korea",
+                genre: "k-pop",
+                duration: 199,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+                image: "🎤"
+            },
+            {
+                id: 10,
+                title: "Kill This Love",
+                artist: "BLACKPINK",
+                country: "🇰🇷 South Korea",
+                genre: "k-pop",
+                duration: 191,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.ogg",
+                image: "🖤"
+            },
+            // African Music
+            {
+                id: 11,
+                title: "Ye",
+                artist: "Burna Boy",
+                country: "🇳🇬 Nigeria",
+                genre: "afrobeat",
+                duration: 201,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-_swing.ogg",
+                image: "🌍"
+            },
+            {
+                id: 12,
+                title: "Jerusalema",
+                artist: "Master KG ft. Nomcebo Zikode",
+                country: "🇿🇦 South Africa",
+                genre: "amapiano",
+                duration: 208,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a",
+                image: "🙏"
+            },
+            // French Music
+            {
+                id: 13,
+                title: "La Vie En Rose",
+                artist: "Édith Piaf",
+                country: "🇫🇷 France",
+                genre: "chanson",
+                duration: 188,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.ogg",
+                image: "🌹"
+            },
+            // Brazilian Music
+            {
+                id: 14,
+                title: "The Girl From Ipanema",
+                artist: "Stan Getz & Astrud Gilberto",
+                country: "🇧🇷 Brazil",
+                genre: "bossa-nova",
+                duration: 317,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+                image: "🏖️"
+            },
+            // Japanese Music
+            {
+                id: 15,
+                title: "Sukiyaki",
+                artist: "Kyu Sakamoto",
+                country: "🇯🇵 Japan",
+                genre: "j-pop",
+                duration: 191,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.ogg",
+                image: "🎌"
+            },
+            // Middle Eastern Music
+            {
+                id: 16,
+                title: "Habibi Ya Nour El Ain",
+                artist: "Amr Diab",
+                country: "🇪🇬 Egypt",
+                genre: "arabic",
+                duration: 255,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-_swing.ogg",
+                image: "🕌"
+            },
+            // Electronic/EDM
+            {
+                id: 17,
+                title: "Levels",
+                artist: "Avicii",
+                country: "🇸🇪 Sweden",
+                genre: "electronic",
+                duration: 202,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a",
+                image: "🎧"
+            },
+            // Classical
+            {
+                id: 18,
+                title: "Canon in D",
+                artist: "Johann Pachelbel",
+                country: "🇩🇪 Germany",
+                genre: "classical",
+                duration: 300,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.ogg",
+                image: "🎼"
+            },
+            // Jazz
+            {
+                id: 19,
+                title: "Take Five",
+                artist: "Dave Brubeck",
+                country: "🇺🇸 USA",
+                genre: "jazz",
+                duration: 324,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+                image: "🎷"
+            },
+            // Reggae
+            {
+                id: 20,
+                title: "No Woman, No Cry",
+                artist: "Bob Marley",
+                country: "🇯🇲 Jamaica",
+                genre: "reggae",
+                duration: 255,
+                stream_url: "https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/soundtrack.ogg",
+                image: "�"
+            }
+        ];
+
+        // DOM Elements
+        const audioElement = document.getElementById('audioElement');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const repeatBtn = document.getElementById('repeatBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalTimeEl = document.getElementById('totalTime');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeFill = document.getElementById('volumeFill');
+        const nowPlayingTitle = document.getElementById('nowPlayingTitle');
+        const nowPlayingArtist = document.getElementById('nowPlayingArtist');
+        const nowPlayingImage = document.getElementById('nowPlayingImage');
+        const musicGrid = document.getElementById('musicGrid');
+        const searchInput = document.getElementById('searchInput');
+        const genreButtons = document.querySelectorAll('.genre-btn');
+    // Ad elements removed for ad-free experience
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+
+        // Initialize the application
+        function initApp() {
+            console.log('🎵 INTERNITY MUSIC - Free Streaming Platform loaded!');
+            renderMusicGrid();
+            setupEventListeners();
+            setupAudioPlayer();
+            updateVolumeDisplay();
+            
+            // Show welcome message
+            showToast('Welcome to INTERNITY MUSIC! 🎵 Stream unlimited music for free with no ads.', 'success');
+            
+            // Tip: Encourage user to play a song after a short delay
+            setTimeout(() => {
+                if (!audioPlayer.classList.contains('active')) {
+                    showToast('💡 Tip: Click any song card to start listening!', 'info');
+                }
+            }, 8000);
+        }
+
+        // Render music grid
+        function renderMusicGrid(songs = sampleMusic, genre = 'all') {
+            let filteredSongs = songs;
+            
+            if (genre !== 'all') {
+                filteredSongs = songs.filter(song => song.genre === genre);
+            }
+            
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filteredSongs = filteredSongs.filter(song => 
+                    song.title.toLowerCase().includes(searchTerm) ||
+                    song.artist.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            musicGrid.innerHTML = '';
+            
+            if (filteredSongs.length === 0) {
+                musicGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h3>No music found</h3>
+                        <p>Try adjusting your search or genre filter</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredSongs.forEach(song => {
+                const musicCard = createMusicCard(song);
+                musicGrid.appendChild(musicCard);
+            });
+        }
+
+        // Create music card element
+        function createMusicCard(song) {
+            const card = document.createElement('div');
+            card.className = 'music-card fade-in';
+            card.innerHTML = `
+                <div class="music-image">
+                    <span style="font-size: 3rem;">${song.image}</span>
+                    <div class="play-overlay">
+                        <button class="play-btn" data-song-id="${song.id}">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="music-info">
+                    <h3>${song.title}</h3>
+                    <p class="music-artist">${song.artist}</p>
+                    <p class="music-country" style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 1rem;">${song.country}</p>
+                    <div class="music-actions">
+                        <button class="stream-btn" data-song-id="${song.id}">
+                            <i class="fas fa-play"></i>
+                            🎵 Free Stream
+                        </button>
+                        <button class="like-btn" data-song-id="${song.id}">
+                            <i class="fas fa-heart"></i>
+                            ❤️ Like
+                        </button>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', handleNavigation);
+            });
+
+            // Mobile menu toggle
+            mobileMenuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('mobile-visible');
+            });
+
+            // Music controls
+            musicGrid.addEventListener('click', handleMusicCardClick);
+            
+            // Player controls
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            prevBtn.addEventListener('click', playPrevious);
+            nextBtn.addEventListener('click', playNext);
+            shuffleBtn.addEventListener('click', toggleShuffle);
+            repeatBtn.addEventListener('click', toggleRepeat);
+
+            // Progress bar
+            progressBar.addEventListener('click', seekToPosition);
+            
+            // Volume control
+            volumeSlider.addEventListener('click', setVolume);
+
+            // Search
+            searchInput.addEventListener('input', debounce(handleSearch, 300));
+
+            // Genre filter
+            genreButtons.forEach(btn => {
+                btn.addEventListener('click', handleGenreFilter);
+            });
+
+            // No ad controls (ad-free)
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                    sidebar.classList.remove('mobile-visible');
+                }
+            });
+        }
+
+        // Handle navigation
+        function handleNavigation(e) {
+            e.preventDefault();
+            const section = e.currentTarget.dataset.section;
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            e.currentTarget.classList.add('active');
+            
+            // Handle different sections
+            switch(section) {
+                case 'discover':
+                    renderDiscoverSection();
+                    break;
+                case 'library':
+                    renderLibrarySection();
+                    break;
+                case 'playlists':
+                    renderPlaylistsSection();
+                    break;
+                case 'downloads':
+                    renderDownloadsSection();
+                    break;
+                case 'free':
+                    renderDiscoverSection();
+                    break;
+                default:
+                    renderDiscoverSection();
+            }
+        }
+
+        // Handle music card interactions
+        function handleMusicCardClick(e) {
+            const songId = parseInt(e.target.dataset.songId);
+            if (!songId) return;
+
+            const song = sampleMusic.find(s => s.id === songId);
+            if (!song) return;
+
+            if (e.target.classList.contains('play-btn') || e.target.classList.contains('stream-btn')) {
+                playStreamSong(song);
+            } else if (e.target.classList.contains('download-btn')) {
+                handleDownload(song);
+            }
+        }
+
+        // Play/stream song (completely free!)
+        function playStreamSong(song) {
+            // Pure free streaming - no ads!
+            startPlayback(song);
+        }
+
+        // Start actual playback
+        function startPlayback(song) {
+            AppState.currentSong = song;
+            
+            // Update UI
+            nowPlayingTitle.textContent = song.title;
+            nowPlayingArtist.textContent = song.artist;
+            nowPlayingImage.innerHTML = `<span style="font-size: 1.5rem;">${song.image}</span>`;
+            
+            // Show player
+            audioPlayer.classList.add('active');
+            
+            // Load and play audio
+            audioElement.src = song.stream_url;
+            audioElement.load();
+            
+            // Set volume
+            audioElement.volume = AppState.volume;
+            
+            // Play when ready
+            audioElement.addEventListener('canplay', () => {
+                audioElement.play()
+                    .then(() => {
+                        AppState.isPlaying = true;
+                        updatePlayPauseButton();
+                        showToast(`🎵 Now playing: ${song.title} by ${song.artist}`, 'success');
+                    })
+                    .catch(error => {
+                        console.error('Playback failed:', error);
+                        showToast('Click to enable audio playback', 'warning');
+                    });
+            }, { once: true });
+        }
+
+        // (Support action removed - no donations)
+
+        // Pure free streaming - no ads ever needed!
+
+        // Setup audio player
+        function setupAudioPlayer() {
+            audioElement.addEventListener('loadedmetadata', () => {
+                AppState.duration = audioElement.duration;
+                totalTimeEl.textContent = formatTime(AppState.duration);
+            });
+
+            audioElement.addEventListener('timeupdate', () => {
+                AppState.currentTime = audioElement.currentTime;
+                updateProgressBar();
+                currentTimeEl.textContent = formatTime(AppState.currentTime);
+            });
+
+            audioElement.addEventListener('ended', () => {
+                if (AppState.repeat) {
+                    audioElement.currentTime = 0;
+                    audioElement.play();
+                } else {
+                    playNext();
+                }
+            });
+
+            audioElement.addEventListener('error', (e) => {
+                console.error('Audio error:', e);
+                showToast('Error playing audio. Please try another song.', 'error');
+            });
+        }
+
+        // Player control functions
+        function togglePlayPause() {
+            if (!AppState.currentSong) {
+                showToast('Please select a song first', 'warning');
+                return;
+            }
+
+            if (AppState.isPlaying) {
+                audioElement.pause();
+                AppState.isPlaying = false;
+            } else {
+                audioElement.play()
+                    .then(() => {
+                        AppState.isPlaying = true;
+                    })
+                    .catch(error => {
+                        console.error('Play failed:', error);
+                        showToast('Click anywhere to enable audio, then try again', 'warning');
+                    });
+            }
+            updatePlayPauseButton();
+        }
+
+        function playNext() {
+            const currentIndex = sampleMusic.findIndex(s => s.id === AppState.currentSong?.id);
+            const nextIndex = (currentIndex + 1) % sampleMusic.length;
+            playStreamSong(sampleMusic[nextIndex]);
+        }
+
+        function playPrevious() {
+            const currentIndex = sampleMusic.findIndex(s => s.id === AppState.currentSong?.id);
+            const prevIndex = currentIndex > 0 ? currentIndex - 1 : sampleMusic.length - 1;
+            playStreamSong(sampleMusic[prevIndex]);
+        }
+
+        function toggleShuffle() {
+            AppState.shuffle = !AppState.shuffle;
+            shuffleBtn.style.color = AppState.shuffle ? 'var(--accent)' : '';
+            showToast(`Shuffle ${AppState.shuffle ? 'enabled' : 'disabled'}`, 'success');
+        }
+
+        function toggleRepeat() {
+            AppState.repeat = !AppState.repeat;
+            repeatBtn.style.color = AppState.repeat ? 'var(--accent)' : '';
+            showToast(`Repeat ${AppState.repeat ? 'enabled' : 'disabled'}`, 'success');
+        }
+
+        function seekToPosition(e) {
+            if (!AppState.currentSong) return;
+            
+            const rect = progressBar.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            const newTime = percentage * AppState.duration;
+            
+            audioElement.currentTime = newTime;
+        }
+
+        function setVolume(e) {
+            const rect = volumeSlider.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(1, clickX / rect.width));
+            
+            AppState.volume = percentage;
+            audioElement.volume = percentage;
+            updateVolumeDisplay();
+        }
+
+        function updatePlayPauseButton() {
+            const icon = playPauseBtn.querySelector('i');
+            icon.className = AppState.isPlaying ? 'fas fa-pause' : 'fas fa-play';
+        }
+
+        function updateProgressBar() {
+            if (!AppState.duration) return;
+            
+            const percentage = (AppState.currentTime / AppState.duration) * 100;
+            progressFill.style.width = `${percentage}%`;
+        }
+
+        function updateVolumeDisplay() {
+            volumeFill.style.width = `${AppState.volume * 100}%`;
+        }
+
+        // Search functionality
+        function handleSearch(e) {
+            const activeGenre = document.querySelector('.genre-btn.active').dataset.genre;
+            renderMusicGrid(sampleMusic, activeGenre);
+        }
+
+        // Genre filter
+        function handleGenreFilter(e) {
+            document.querySelectorAll('.genre-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const genre = e.target.dataset.genre;
+            renderMusicGrid(sampleMusic, genre);
+            
+            showToast(`Showing ${genre === 'all' ? 'all music' : genre + ' music'}`, 'success');
+        }
+
+        // Section renderers
+        function renderDiscoverSection() {
+            document.getElementById('content').innerHTML = `
+                <h2 class="section-title">🔥 Trending Now</h2>
+                <div class="music-grid" id="musicGrid"></div>
+            `;
+            renderMusicGrid();
+            
+            // Re-attach event listener to new grid
+            document.getElementById('musicGrid').addEventListener('click', handleMusicCardClick);
+        }
+
+        function renderLibrarySection() {
+            document.getElementById('content').innerHTML = `
+                <h2 class="section-title">📚 Your Library</h2>
+                <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                    <i class="fas fa-music" style="font-size: 4rem; margin-bottom: 1rem; color: var(--accent);"></i>
+                    <h3>Your library is empty</h3>
+                    <p>Start streaming music to build your personal library!</p>
+                    <button onclick="document.querySelector('[data-section=\"discover\"]').click()" 
+                            style="background: var(--accent); color: white; border: none; padding: 1rem 2rem; border-radius: 25px; margin-top: 1rem; cursor: pointer;">
+                        Discover Music
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderPlaylistsSection() {
+            document.getElementById('content').innerHTML = `
+                <h2 class="section-title">🎵 Your Playlists</h2>
+                <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                    <i class="fas fa-list" style="font-size: 4rem; margin-bottom: 1rem; color: var(--accent);"></i>
+                    <h3>No playlists yet</h3>
+                    <p>Create your first playlist to organize your favorite songs!</p>
+                    <button onclick="showToast('Playlist creation coming soon! 🚧', 'info')" 
+                            style="background: var(--accent); color: white; border: none; padding: 1rem 2rem; border-radius: 25px; margin-top: 1rem; cursor: pointer;">
+                        Create Playlist
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderDownloadsSection() {
+            const likedSongs = JSON.parse(localStorage.getItem('likedSongs') || '[]');
+            
+            if (likedSongs.length === 0) {
+                document.getElementById('content').innerHTML = `
+                    <h2 class="section-title">� Liked Songs</h2>
+                    <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                        <i class="fas fa-heart" style="font-size: 4rem; margin-bottom: 1rem; color: var(--error);"></i>
+                        <h3>No liked songs yet</h3>
+                        <p>Like songs to add them to your collection!</p>
+                        <button onclick="document.querySelector('[data-section=\"discover\"]').click()" 
+                                style="background: var(--error); color: white; border: none; padding: 1rem 2rem; border-radius: 25px; margin-top: 1rem; cursor: pointer;">
+                            Discover Music
+                        </button>
+                    </div>
+                `;
+            } else {
+                let downloadHTML = `<h2 class="section-title">� Liked Songs (${likedSongs.length})</h2><div class="music-grid">`;
+                
+                likedSongs.forEach(song => {
+                    downloadHTML += `
+                        <div class="music-card">
+                            <div class="music-image">
+                                <span style="font-size: 3rem;">${song.image}</span>
+                                <div class="free-badge">FREE</div>
+                            </div>
+                            <div class="music-info">
+                                <h3>${song.title}</h3>
+                                <p class="music-artist">${song.artist}</p>
+                                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                                    Purchased: ${new Date(song.purchaseDate).toLocaleDateString()}
+                                </p>
+                                <div class="music-actions">
+                                    <button class="stream-btn" onclick="startPlayback(${JSON.stringify(song).replace(/"/g, '&quot;')})">
+                                        <i class="fas fa-play"></i>
+                                        Play
+                                    </button>
+                                    <button class="download-btn" onclick="downloadFile('${song.title}', '${song.downloadUrl}')">
+                                        <i class="fas fa-download"></i>
+                                        Download
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                downloadHTML += '</div>';
+                document.getElementById('content').innerHTML = downloadHTML;
+            }
+        }
+
+        // (Support section removed - no donations, fully free)
+
+        // Utility functions
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        function showToast(message, type = 'info') {
+            // Remove existing toast
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            // Show toast
+            setTimeout(() => toast.classList.add('show'), 100);
+
+            // Hide and remove toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function downloadFile(title, url) {
+            showToast(`🎵 Downloading "${title}"...`, 'success');
+            
+            // In a real application, this would trigger an actual download
+            setTimeout(() => {
+                showToast(`✅ "${title}" downloaded successfully!`, 'success');
+            }, 2000);
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        // Add user interaction to enable audio
+        document.addEventListener('click', function enableAudio() {
+            // This allows audio to play without user gesture restrictions
+            audioElement.volume = 0.01;
+            audioElement.play().then(() => {
+                audioElement.pause();
+                audioElement.volume = AppState.volume;
+            }).catch(() => {
+                // Audio not ready yet, that's fine
+            });
+            
+            // Remove this listener after first interaction
+            document.removeEventListener('click', enableAudio);
+        }, { once: true });
+
+        // Export for debugging
+        window.AppState = AppState;
+        window.startPlayback = startPlayback;
+
+        console.log('🎵 INTERNITY MUSIC - Ad-Free Streaming Platform Ready!');
+        console.log('Features:');
+        // Pure free music platform - no payments or ads needed!
+
+        // Toggle like button
+        function toggleLike(songId) {
+            const btn = event.target;
+            const isLiked = btn.classList.contains('liked');
+            const song = sampleMusic.find(s => s.id === songId);
+            let likedSongs = JSON.parse(localStorage.getItem('likedSongs') || '[]');
+            
+            if (isLiked) {
+                btn.classList.remove('liked');
+                btn.innerHTML = '<i class="fas fa-heart"></i> Like';
+                // Remove from liked songs
+                likedSongs = likedSongs.filter(s => s.id !== songId);
+                localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
+                showToast('Removed from liked songs', 'info');
+            } else {
+                btn.classList.add('liked');
+                btn.innerHTML = '<i class="fas fa-heart"></i> Liked';
+                // Add to liked songs
+                if (song && !likedSongs.find(s => s.id === songId)) {
+                    likedSongs.push(song);
+                    localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
+                }
+                showToast('Added to liked songs!', 'success');
+            }
+        }
+
+        console.log('✅ Free unlimited streaming for everyone');
+        console.log('✅ Global music from all cultures');  
+        console.log('✅ Full music player with controls');
+        console.log('✅ Genre filtering and search');
+        console.log('✅ Completely ad-free experience');
+        console.log('✅ No payments or donations required');
+        console.log('✅ Mobile responsive design');
+    </script>
+</body>
+</html>
