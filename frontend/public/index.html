@@ -539,53 +539,7 @@
             width: 70%;
         }
 
-        /* Ad Banner */
-        .ad-banner {
-            background: var(--ad-bg);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            margin: 2rem 0;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            display: none;
-        }
-
-        .ad-banner.active {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        .ad-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .ad-timer {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-        }
-
-        .skip-ad {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid white;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 1rem;
-            display: none;
-        }
-
-        .skip-ad.available {
-            display: inline-block;
-        }
+        /* Pure Free Music Platform - No Ads Needed! */
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
@@ -762,9 +716,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" data-section="support">
-                        <i class="fas fa-heart"></i>
-                        <span>Support Us</span>
+                    <a href="#" class="nav-link" data-section="free">
+                        <i class="fas fa-globe"></i>
+                        <span>Free Music</span>
                     </a>
                 </li>
             </ul>
@@ -798,8 +752,8 @@
                 </div>
             </div>
 
-            <!-- Ad Banner -->
-            <div class="ad-banner" id="adBanner">
+            <!-- Pure Free Music - No Ads Ever! -->
+            <div style="display: none;" id="adBanner">
                 <div class="ad-timer" id="adTimer">5s</div>
                 <div class="ad-content">
                     <h3>� Free Music for Everyone!</h3>
@@ -1328,20 +1282,10 @@
             }
         }
 
-        // Play/stream song (free with ads)
+        // Play/stream song (completely free!)
         function playStreamSong(song) {
-            // Check if we need to show an ad
-            if (AppState.freeUser && AppState.adFreePlays <= 0) {
-                showAdvertisement(() => {
-                    startPlayback(song);
-                    AppState.adFreePlays = 2; // Reset ad-free plays after ad
-                });
-            } else {
-                startPlayback(song);
-                if (AppState.freeUser) {
-                    AppState.adFreePlays--;
-                }
-            }
+            // Pure free streaming - no ads!
+            startPlayback(song);
         }
 
         // Start actual playback
@@ -1400,47 +1344,7 @@
             }
         }
 
-        // Show advertisement
-        function showAdvertisement(callback) {
-            adBanner.classList.add('active');
-            let timeLeft = 5;
-            adTimer.textContent = `${timeLeft}s`;
-            
-            const timer = setInterval(() => {
-                timeLeft--;
-                adTimer.textContent = `${timeLeft}s`;
-                
-                if (timeLeft <= 2) {
-                    skipAd.classList.add('available');
-                }
-                
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    hideAdvertisement();
-                    AppState.adsWatched++;
-                    callback();
-                }
-            }, 1000);
-
-            // Store timer for cleanup if needed
-            skipAd._timer = timer;
-        }
-
-        // Skip advertisement
-        function skipAdvertisement() {
-            if (skipAd._timer) {
-                clearInterval(skipAd._timer);
-            }
-            hideAdvertisement();
-            AppState.adsWatched++;
-            showToast('Ad skipped! Enjoy your music 🎵', 'success');
-        }
-
-        // Hide advertisement
-        function hideAdvertisement() {
-            adBanner.classList.remove('active');
-            skipAd.classList.remove('available');
-        }
+        // Pure free streaming - no ads ever needed!
 
         // Setup audio player
         function setupAudioPlayer() {
@@ -1805,47 +1709,7 @@
 
         console.log('🎵 INTERNITY MUSIC - Complete Freemium Streaming Platform Ready!');
         console.log('Features:');
-        // Show donation modal
-        function showDonationModal() {
-            const modal = document.createElement('div');
-            modal.innerHTML = `
-                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 10000;">
-                    <div style="background: var(--card-bg); padding: 2rem; border-radius: 15px; max-width: 500px; width: 90%; text-align: center;">
-                        <h3 style="color: var(--accent); margin-bottom: 1rem;">💝 Support INTERNITY MUSIC</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Help us keep music free for everyone worldwide!</p>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0;">
-                            <button onclick="processDonation('5')" style="background: var(--accent); color: white; border: none; padding: 1rem; border-radius: 10px; cursor: pointer;">$5</button>
-                            <button onclick="processDonation('10')" style="background: var(--accent); color: white; border: none; padding: 1rem; border-radius: 10px; cursor: pointer;">$10</button>
-                            <button onclick="processDonation('25')" style="background: var(--accent); color: white; border: none; padding: 1rem; border-radius: 10px; cursor: pointer;">$25</button>
-                        </div>
-                        
-                        <div style="margin: 1rem 0;">
-                            <input type="number" placeholder="Custom amount ($)" style="background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 0.5rem; border-radius: 5px; width: 150px;" id="customAmount">
-                            <button onclick="processDonation(document.getElementById('customAmount').value)" style="background: var(--success); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-left: 0.5rem;">Donate</button>
-                        </div>
-                        
-                        <button onclick="closeDonationModal()" style="background: var(--text-secondary); color: white; border: none; padding: 0.5rem 1.5rem; border-radius: 25px; cursor: pointer; margin-top: 1rem;">Maybe Later</button>
-                    </div>
-                </div>
-            `;
-            modal.id = 'donationModal';
-            document.body.appendChild(modal);
-        }
-        
-        function closeDonationModal() {
-            const modal = document.getElementById('donationModal');
-            if (modal) modal.remove();
-        }
-        
-        function processDonation(amount) {
-            if (!amount || amount <= 0) {
-                showToast('Please enter a valid amount!', 'error');
-                return;
-            }
-            closeDonationModal();
-            showToast(`Thank you for your $${amount} donation! 💝 Your support keeps music free for everyone!`, 'success');
-        }
+        // Pure free music platform - no payments needed!
 
         // Toggle like button
         function toggleLike(songId) {
