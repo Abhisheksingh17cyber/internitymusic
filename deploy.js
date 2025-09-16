@@ -12,20 +12,65 @@ async function deployToGitHubPages() {
         await fs.copyFile(sourcePath, targetPath);
         console.log('✅ Copied index.html to root directory');
         
-        // Create a simple README for GitHub Pages
+        // Copy JS files
+        const jsDir = path.join(__dirname, 'js');
+        await fs.mkdir(jsDir, { recursive: true });
+        
+        const musicApiSource = path.join(__dirname, 'js', 'music-api.js');
+        const musicApiTarget = path.join(jsDir, 'music-api.js');
+        
+        try {
+            await fs.copyFile(musicApiSource, musicApiTarget);
+            console.log('✅ Copied music-api.js');
+        } catch (error) {
+            console.log('⚠️ music-api.js not found, skipping');
+        }
+        
+        // Copy database files
+        const dbDir = path.join(__dirname, 'database');
+        await fs.mkdir(dbDir, { recursive: true });
+        
+        const dbSource = path.join(__dirname, 'database', 'music_database.json');
+        const dbTarget = path.join(dbDir, 'music_database.json');
+        
+        try {
+            await fs.copyFile(dbSource, dbTarget);
+            console.log('✅ Copied music_database.json');
+        } catch (error) {
+            console.log('⚠️ music_database.json not found, skipping');
+        }
+        
+        // Copy database viewer
+        const viewerSource = path.join(__dirname, 'database-viewer.html');
+        const viewerTarget = path.join(__dirname, 'database-viewer.html');
+        
+        try {
+            await fs.copyFile(viewerSource, viewerTarget);
+            console.log('✅ Copied database-viewer.html');
+        } catch (error) {
+            console.log('⚠️ database-viewer.html not found, skipping');
+        }
+        
+        // Create enhanced README for GitHub Pages
         const readmeContent = `# INTERNITY MUSIC 🎵
 
-## Free Global Music Streaming Platform
+## Free Music Streaming Platform with Real Artist Database
 
-A completely **ad-free** and **donation-free** music streaming platform that brings you music from around the world!
+A completely **ad-free** and **donation-free** music streaming platform featuring **real artist tracks** from around the world!
+
+### ✨ NEW: Real Artist Database
+- � **Authentic Tracks** from Taylor Swift, Ed Sheeran, Drake, BTS, Arijit Singh & more
+- 📊 **50+ Real Songs** from major artists across multiple genres
+- 🌍 **Global Artists** from USA, India, UK, South Korea, and more
+- 🔍 **Enhanced Search** by artist, album, or track name
 
 ### Features:
-- 🌍 **Global Music Collection** - Music from every culture
-- 🎵 **Completely Free** - No payments or ads ever
-- 🎧 **High Quality Audio** - Great sound quality
+- 🚫 **Completely Free** - No payments, ads, or donations ever
+- � **Real Music Database** - Authentic artist tracks with metadata
+- 🔀 **Smart Playlists** - Non-repeating, diverse music selection
 - ❤️ **Like System** - Save your favorite songs
-- 🔍 **Genre Filtering** - Discover by genre
-- 📱 **Mobile Responsive** - Works on all devices
+- 🎧 **High Quality Audio** - Great sound quality
+- 📱 **Mobile Responsive** - Works perfectly on all devices
 
 ### Live Demo:
 🔗 **[Try INTERNITY MUSIC Now!](https://abhisheksingh17cyber.github.io/internitymusic/)**

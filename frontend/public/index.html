@@ -830,6 +830,9 @@
     <!-- Audio element for playback -->
     <audio id="audioElement" preload="metadata"></audio>
 
+    <!-- Include the Music API Service -->
+    <script src="./js/music-api.js"></script>
+
     <script>
         // Application State
         const AppState = {
@@ -1064,6 +1067,84 @@
             }
         ];
 
+        // Music API Service and Real Database Integration
+        let musicAPI = null;
+        let realMusicDatabase = [];
+        let isRealDatabaseLoaded = false;
+
+        // Initialize the real music database
+        async function initializeRealMusicDatabase() {
+            try {
+                showToast('🎵 Loading real music database...', 'info');
+                musicAPI = new MusicAPIService();
+                await musicAPI.loadDatabase();
+                
+                // Get all tracks from the real database
+                realMusicDatabase = musicAPI.getAllTracks().map(track => 
+                    musicAPI.formatTrackForUI(track)
+                );
+                
+                isRealDatabaseLoaded = true;
+                console.log('🎵 Real music database loaded:', realMusicDatabase.length, 'tracks');
+                
+                // Update the music grid with real tracks
+                if (realMusicDatabase.length > 0) {
+                    sampleMusic = realMusicDatabase;
+                    displayMusic(realMusicDatabase);
+                    updateStats();
+                }
+                
+                showToast(`✅ Loaded ${realMusicDatabase.length} real songs!`, 'success');
+                
+            } catch (error) {
+                console.warn('Failed to load real music database:', error);
+                showToast('⚠️ Using sample music - database loading failed', 'warning');
+                isRealDatabaseLoaded = false;
+            }
+        }
+
+        // Enhanced search with real database
+        function searchRealMusic(query) {
+            if (!musicAPI || !isRealDatabaseLoaded) {
+                return searchMusic(query); // Fallback to original search
+            }
+            
+            const results = musicAPI.searchTracks(query, 50);
+            return results.map(track => musicAPI.formatTrackForUI(track));
+        }
+
+        // Get recommendations based on current track
+        function getRealRecommendations(currentTrack, limit = 10) {
+            if (!musicAPI || !isRealDatabaseLoaded) {
+                return generateSmartPlaylist().slice(0, limit);
+            }
+            
+            const recommendations = musicAPI.getRecommendations(currentTrack, limit);
+            return recommendations.map(track => musicAPI.formatTrackForUI(track));
+        }
+
+        // Get tracks by genre from real database
+        function getRealTracksByGenre(genre) {
+            if (!musicAPI || !isRealDatabaseLoaded) {
+                return filterByGenre(genre);
+            }
+            
+            const tracks = musicAPI.getTracksByGenre(genre);
+            return tracks.map(track => musicAPI.formatTrackForUI(track));
+        }
+
+        // Update statistics display
+        function updateStats() {
+            if (!musicAPI || !isRealDatabaseLoaded) return;
+            
+            const artists = musicAPI.getAllArtists();
+            const tracks = realMusicDatabase;
+            const genres = [...new Set(tracks.map(t => t.genre))];
+            const countries = [...new Set(tracks.map(t => t.country))];
+            
+            console.log(`📊 Database Stats: ${artists.length} artists, ${tracks.length} tracks, ${genres.length} genres, ${countries.length} countries`);
+        }
+
         // DOM Elements
         const audioElement = document.getElementById('audioElement');
         const audioPlayer = document.getElementById('audioPlayer');
@@ -1177,16 +1258,24 @@
             setupAudioPlayer();
             updateVolumeDisplay();
             
-            // Load music from open web APIs
-            loadOpenWebMusic();
+            // Initialize real music database first
+            initializeRealMusicDatabase().then(() => {
+                // If real database loaded, use it; otherwise load from open web APIs
+                if (!isRealDatabaseLoaded) {
+                    loadOpenWebMusic();
+                }
+            });
             
             // Show welcome message
             showToast('Welcome to INTERNITY MUSIC! 🎵 Stream unlimited music for free with no ads.', 'success');
             
-            // Tip: Encourage user to play a song after a short delay
+            // Enhanced tip message for real database
             setTimeout(() => {
                 if (!audioPlayer.classList.contains('active')) {
-                    showToast('💡 Tip: Click any song card to start listening!', 'info');
+                    const message = isRealDatabaseLoaded 
+                        ? '💡 Tip: Click any song to start listening to real artist tracks!'
+                        : '💡 Tip: Click any song card to start listening!';
+                    showToast(message, 'info');
                 }
             }, 8000);
         }
@@ -1598,30 +1687,69 @@
             volumeFill.style.width = `${AppState.volume * 100}%`;
         }
 
-        // Search functionality
+        // Enhanced search functionality with real database
         function handleSearch(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
             const activeGenre = document.querySelector('.genre-btn.active').dataset.genre;
-            renderMusicGrid(sampleMusic, activeGenre);
+            
+            let songsToSearch = sampleMusic;
+            
+            // Use real database if available
+            if (isRealDatabaseLoaded && realMusicDatabase.length > 0) {
+                songsToSearch = realMusicDatabase;
+            }
+            
+            // If there's a search term, use enhanced search
+            if (searchTerm && isRealDatabaseLoaded) {
+                const searchResults = searchRealMusic(searchTerm);
+                renderMusicGrid(searchResults, activeGenre);
+                showToast(`Found ${searchResults.length} results for "${searchTerm}"`, 'info');
+            } else {
+                renderMusicGrid(songsToSearch, activeGenre);
+            }
         }
 
-        // Genre filter
+        // Enhanced genre filter with real database
         function handleGenreFilter(e) {
             document.querySelectorAll('.genre-btn').forEach(btn => btn.classList.remove('active'));
             e.target.classList.add('active');
             
             const genre = e.target.dataset.genre;
-            renderMusicGrid(sampleMusic, genre);
+            let songsToFilter = sampleMusic;
             
+            // Use real database if available
+            if (isRealDatabaseLoaded && realMusicDatabase.length > 0) {
+                songsToFilter = realMusicDatabase;
+                
+                // Use enhanced genre filtering for real database
+                if (genre !== 'all') {
+                    const genreResults = getRealTracksByGenre(genre);
+                    renderMusicGrid(genreResults, 'all'); // Don't double-filter
+                    showToast(`Found ${genreResults.length} ${genre} tracks`, 'success');
+                    return;
+                }
+            }
+            
+            renderMusicGrid(songsToFilter, genre);
             showToast(`Showing ${genre === 'all' ? 'all music' : genre + ' music'}`, 'success');
         }
 
-        // Section renderers
+        // Enhanced section renderers with real database
         function renderDiscoverSection() {
+            const trackCount = isRealDatabaseLoaded ? realMusicDatabase.length : sampleMusic.length;
+            const databaseType = isRealDatabaseLoaded ? 'Real Artist Tracks' : 'Sample Tracks';
+            
             document.getElementById('content').innerHTML = `
                 <h2 class="section-title">🔥 Trending Now</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    <i class="fas fa-database"></i> ${trackCount} ${databaseType} Available
+                </p>
                 <div class="music-grid" id="musicGrid"></div>
             `;
-            renderMusicGrid();
+            
+            // Use real database if available
+            const songsToRender = isRealDatabaseLoaded ? realMusicDatabase : sampleMusic;
+            renderMusicGrid(songsToRender);
             
             // Re-attach event listener to new grid
             document.getElementById('musicGrid').addEventListener('click', handleMusicCardClick);

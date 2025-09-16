@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Database Viewer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background: #1a1a2e;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #7c4dff;
+        }
+        .artist-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .artist-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .artist-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #7c4dff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        .album {
+            background: rgba(255, 255, 255, 0.03);
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .track {
+            padding: 5px 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+        .genre-tag {
+            background: #7c4dff;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+        .country-flag {
+            font-size: 1.2rem;
+        }
+        .playlists {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Music Database Viewer</h1>
+        <p>Real-time view of the music database structure and content</p>
+        
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="artistCount">-</div>
+                <div>Artists</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="albumCount">-</div>
+                <div>Albums</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="trackCount">-</div>
+                <div>Tracks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="genreCount">-</div>
+                <div>Genres</div>
+            </div>
+        </div>
+
+        <div id="artists-container">
+            <h2>Artists</h2>
+            <div id="artists"></div>
+        </div>
+
+        <div class="playlists">
+            <h2>Featured Playlists</h2>
+            <div id="playlists"></div>
+        </div>
+    </div>
+
+    <script>
+        let database = null;
+
+        async function loadDatabase() {
+            try {
+                console.log('Loading database from:', './database/music_database.json');
+                const response = await fetch('./database/music_database.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                database = await response.json();
+                console.log('Database loaded successfully:', database);
+                displayDatabase();
+            } catch (error) {
+                console.error('Failed to load database:', error);
+                document.getElementById('artists').innerHTML = `
+                    <div style="color: #ff6b6b; text-align: center; padding: 2rem;">
+                        <h3>❌ Failed to load database</h3>
+                        <p>Error: ${error.message}</p>
+                        <p>Make sure the database file exists at: ./database/music_database.json</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayDatabase() {
+            if (!database) return;
+
+            // Update stats
+            const artists = Object.values(database.artists);
+            let totalAlbums = 0;
+            let totalTracks = 0;
+            const genres = new Set();
+
+            artists.forEach(artist => {
+                const albums = Object.values(artist.albums);
+                totalAlbums += albums.length;
+                genres.add(artist.genre);
+                
+                albums.forEach(album => {
+                    totalTracks += album.tracks.length;
+                });
+            });
+
+            document.getElementById('artistCount').textContent = artists.length;
+            document.getElementById('albumCount').textContent = totalAlbums;
+            document.getElementById('trackCount').textContent = totalTracks;
+            document.getElementById('genreCount').textContent = genres.size;
+
+            // Display artists
+            const artistsContainer = document.getElementById('artists');
+            artistsContainer.innerHTML = '';
+
+            artists.forEach(artist => {
+                const albums = Object.values(artist.albums);
+                let totalArtistTracks = 0;
+                albums.forEach(album => totalArtistTracks += album.tracks.length);
+
+                const artistCard = document.createElement('div');
+                artistCard.className = 'artist-card';
+                artistCard.innerHTML = `
+                    <div class="artist-header">
+                        <div class="artist-image">${artist.image}</div>
+                        <div>
+                            <h3>${artist.name}</h3>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <span class="genre-tag">${artist.genre}</span>
+                                <span class="country-flag">${artist.country}</span>
+                                <span style="color: #b3b3b3;">${totalArtistTracks} tracks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: #b3b3b3; margin-bottom: 15px;">${artist.bio}</p>
+                    <div class="albums">
+                        ${albums.map(album => `
+                            <div class="album">
+                                <strong>${album.title} (${album.year})</strong>
+                                <div style="font-size: 0.8rem; color: #b3b3b3; margin: 5px 0;">
+                                    ${album.tracks.length} tracks
+                                </div>
+                                <div class="tracks">
+                                    ${album.tracks.map(track => `
+                                        <div class="track">
+                                            ${track.title} - ${track.duration}
+                                            ${track.spotify_id ? '<span style="color: #1db954;">🎵 Spotify</span>' : ''}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                artistsContainer.appendChild(artistCard);
+            });
+
+            // Display playlists
+            const playlistsContainer = document.getElementById('playlists');
+            const playlists = Object.values(database.playlists);
+            playlistsContainer.innerHTML = playlists.map(playlist => `
+                <div style="margin-bottom: 15px;">
+                    <h4>${playlist.name}</h4>
+                    <p style="color: #b3b3b3;">${playlist.description}</p>
+                    <div style="font-size: 0.9rem; color: #7c4dff;">
+                        ${playlist.tracks.length} tracks
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load database when page loads
+        document.addEventListener('DOMContentLoaded', loadDatabase);
+    </script>
+</body>
+</html>

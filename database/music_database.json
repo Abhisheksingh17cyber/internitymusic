@@ -1,0 +1,324 @@
+{
+  "artists": {
+    "taylor_swift": {
+      "id": "taylor_swift",
+      "name": "Taylor Swift",
+      "country": "🇺🇸 USA",
+      "genre": "pop",
+      "image": "https://i.scdn.co/image/ab6761610000e5eb859e4c14fa59296c8649e0e4",
+      "bio": "American singer-songwriter known for narrative songwriting and genre versatility",
+      "albums": {
+        "1989": {
+          "id": "1989",
+          "title": "1989",
+          "year": 2014,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273904445d34d968baa90952077",
+          "tracks": [
+            {
+              "id": "shake_it_off",
+              "title": "Shake It Off",
+              "duration": 242,
+              "preview_url": "https://p.scdn.co/mp3-preview/5d5db83bf5de3c2de6396b39c2fe331dfc2b7a17",
+              "spotify_id": "5xTtaWoae3wi06K5WfVUUH"
+            },
+            {
+              "id": "blank_space",
+              "title": "Blank Space",
+              "duration": 231,
+              "preview_url": "https://p.scdn.co/mp3-preview/2f95fc8c2e8bab9ad4b94a8f1e2afb4f50b5b11b",
+              "spotify_id": "1u8c2t2Cy7UBoG4ArRcF5g"
+            }
+          ]
+        },
+        "folklore": {
+          "id": "folklore",
+          "title": "folklore",
+          "year": 2020,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273195d0757d0e63a0d75a6e15a",
+          "tracks": [
+            {
+              "id": "cardigan",
+              "title": "cardigan",
+              "duration": 239,
+              "preview_url": "https://p.scdn.co/mp3-preview/5f4b7eb6e8b6b4b4b4b4b4b4b4b4b4b4b4b4b4b4",
+              "spotify_id": "4R2kfaDFhslZEMJqAFNpdd"
+            }
+          ]
+        }
+      }
+    },
+    "ed_sheeran": {
+      "id": "ed_sheeran",
+      "name": "Ed Sheeran",
+      "country": "🇬🇧 UK",
+      "genre": "pop",
+      "image": "https://i.scdn.co/image/ab6761610000e5eb9a398209a4ef3360dce2dec4",
+      "bio": "British singer-songwriter known for acoustic ballads and pop anthems",
+      "albums": {
+        "divide": {
+          "id": "divide",
+          "title": "÷ (Divide)",
+          "year": 2017,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96",
+          "tracks": [
+            {
+              "id": "shape_of_you",
+              "title": "Shape of You",
+              "duration": 233,
+              "preview_url": "https://p.scdn.co/mp3-preview/1f3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "7qiZfU4dY1lWllzX7mPBI3"
+            },
+            {
+              "id": "perfect",
+              "title": "Perfect",
+              "duration": 263,
+              "preview_url": "https://p.scdn.co/mp3-preview/2f3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "0tgVpDi06FyKpA1z0VMD4v"
+            }
+          ]
+        }
+      }
+    },
+    "drake": {
+      "id": "drake",
+      "name": "Drake",
+      "country": "🇨🇦 Canada",
+      "genre": "hip-hop",
+      "image": "https://i.scdn.co/image/ab6761610000e5eb4293385d324db8558179afd9",
+      "bio": "Canadian rapper, singer, and songwriter, one of the best-selling music artists",
+      "albums": {
+        "scorpion": {
+          "id": "scorpion",
+          "title": "Scorpion",
+          "year": 2018,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273f907de96b9a4fbc04accc0d5",
+          "tracks": [
+            {
+              "id": "gods_plan",
+              "title": "God's Plan",
+              "duration": 198,
+              "preview_url": "https://p.scdn.co/mp3-preview/3f3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "6DCZcSspjsKoFjzjrWoCdn"
+            },
+            {
+              "id": "in_my_feelings",
+              "title": "In My Feelings",
+              "duration": 217,
+              "preview_url": "https://p.scdn.co/mp3-preview/4f3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "2G7V7zsVDxg1yRsu7Ew9RJ"
+            }
+          ]
+        }
+      }
+    },
+    "billie_eilish": {
+      "id": "billie_eilish",
+      "name": "Billie Eilish",
+      "country": "🇺🇸 USA",
+      "genre": "pop",
+      "image": "https://i.scdn.co/image/ab6761610000e5eb7a4d6e44e9bf4bd9a4ae3c85",
+      "bio": "American singer-songwriter known for dark, moody pop and distinctive vocals",
+      "albums": {
+        "when_we_all_fall_asleep": {
+          "id": "when_we_all_fall_asleep",
+          "title": "WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?",
+          "year": 2019,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273a9f6c04ba168640b48aa5795",
+          "tracks": [
+            {
+              "id": "bad_guy",
+              "title": "bad guy",
+              "duration": 194,
+              "preview_url": "https://p.scdn.co/mp3-preview/5f3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "2Fxmhks0bxGSBdJ92vM42m"
+            }
+          ]
+        }
+      }
+    },
+    "arijit_singh": {
+      "id": "arijit_singh",
+      "name": "Arijit Singh",
+      "country": "🇮🇳 India",
+      "genre": "bollywood",
+      "image": "https://i.scdn.co/image/ab6761610000e5eb0261696c5df3be99da6ed3f3",
+      "bio": "Indian playback singer known for romantic ballads in Bollywood films",
+      "albums": {
+        "best_of_arijit": {
+          "id": "best_of_arijit",
+          "title": "Best of Arijit Singh",
+          "year": 2020,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273c8b446daafb608d2e8f06b36",
+          "tracks": [
+            {
+              "id": "tum_hi_ho",
+              "title": "Tum Hi Ho",
+              "duration": 258,
+              "preview_url": "https://p.scdn.co/mp3-preview/6f3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "1bVlvBOgzqp8kZjP7W9s6t"
+            },
+            {
+              "id": "channa_mereya",
+              "title": "Channa Mereya",
+              "duration": 294,
+              "preview_url": "https://p.scdn.co/mp3-preview/7f3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "5Q3yaBjuM8bZzj3V5z3zAe"
+            }
+          ]
+        }
+      }
+    },
+    "bts": {
+      "id": "bts",
+      "name": "BTS",
+      "country": "🇰🇷 South Korea",
+      "genre": "k-pop",
+      "image": "https://i.scdn.co/image/ab6761610000e5eb82b879a8c7f9d4a0e7e6f5c4",
+      "bio": "South Korean boy band, global superstars of K-pop",
+      "albums": {
+        "map_of_the_soul_7": {
+          "id": "map_of_the_soul_7",
+          "title": "Map of the Soul: 7",
+          "year": 2020,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273d2c4cb8eba60bcfb0d1f4e0e",
+          "tracks": [
+            {
+              "id": "dynamite",
+              "title": "Dynamite",
+              "duration": 199,
+              "preview_url": "https://p.scdn.co/mp3-preview/8f3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "0t1kP63rueHleOhQkYSXFY"
+            },
+            {
+              "id": "boy_with_luv",
+              "title": "Boy With Luv (feat. Halsey)",
+              "duration": 230,
+              "preview_url": "https://p.scdn.co/mp3-preview/9f3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "2GWkOJBfiBj9kzDHmcf1as"
+            }
+          ]
+        }
+      }
+    },
+    "dua_lipa": {
+      "id": "dua_lipa",
+      "name": "Dua Lipa",
+      "country": "🇬🇧 UK",
+      "genre": "pop",
+      "image": "https://i.scdn.co/image/ab6761610000e5eb6a224073987b930f99aaa86c",
+      "bio": "British-Albanian singer known for disco-inspired pop anthems",
+      "albums": {
+        "future_nostalgia": {
+          "id": "future_nostalgia",
+          "title": "Future Nostalgia",
+          "year": 2020,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273d6ec808b629a9c8c5e6f5b84",
+          "tracks": [
+            {
+              "id": "levitating",
+              "title": "Levitating",
+              "duration": 203,
+              "preview_url": "https://p.scdn.co/mp3-preview/af3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "463CkQjx2Zk1yXoBuierM9"
+            },
+            {
+              "id": "dont_start_now",
+              "title": "Don't Start Now",
+              "duration": 183,
+              "preview_url": "https://p.scdn.co/mp3-preview/bf3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "3PfIrDoz19wz7qK7tYeu62"
+            }
+          ]
+        }
+      }
+    },
+    "bad_bunny": {
+      "id": "bad_bunny",
+      "name": "Bad Bunny",
+      "country": "🇵🇷 Puerto Rico",
+      "genre": "reggaeton",
+      "image": "https://i.scdn.co/image/ab6761610000e5eb12d5ab979779aa60c8b1fd66",
+      "bio": "Puerto Rican rapper and singer, leading figure in Latin trap and reggaeton",
+      "albums": {
+        "el_ultimo_tour_del_mundo": {
+          "id": "el_ultimo_tour_del_mundo",
+          "title": "EL ÚLTIMO TOUR DEL MUNDO",
+          "year": 2020,
+          "cover": "https://i.scdn.co/image/ab67616d0000b273470d0ba90c73bb17b0cf2bd1",
+          "tracks": [
+            {
+              "id": "dakiti",
+              "title": "DÁKITI (feat. Jhay Cortez)",
+              "duration": 205,
+              "preview_url": "https://p.scdn.co/mp3-preview/cf3e71a8e8c8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "spotify_id": "1SJcY95t8OeOQSlTcDzT7j"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "genres": {
+    "pop": {
+      "name": "Pop",
+      "description": "Popular music with catchy melodies and mainstream appeal",
+      "emoji": "🎵",
+      "artists": ["taylor_swift", "ed_sheeran", "billie_eilish", "dua_lipa"]
+    },
+    "hip-hop": {
+      "name": "Hip Hop",
+      "description": "Urban music featuring rap vocals and rhythmic beats",
+      "emoji": "🎤",
+      "artists": ["drake"]
+    },
+    "bollywood": {
+      "name": "Bollywood",
+      "description": "Music from Indian cinema and popular culture",
+      "emoji": "🇮🇳",
+      "artists": ["arijit_singh"]
+    },
+    "k-pop": {
+      "name": "K-Pop",
+      "description": "Korean popular music with global appeal",
+      "emoji": "🇰🇷",
+      "artists": ["bts"]
+    },
+    "reggaeton": {
+      "name": "Reggaeton",
+      "description": "Latin urban music with Caribbean influences",
+      "emoji": "🌴",
+      "artists": ["bad_bunny"]
+    }
+  },
+  "playlists": {
+    "trending_global": {
+      "id": "trending_global",
+      "name": "🔥 Trending Global",
+      "description": "The hottest songs from around the world",
+      "tracks": [
+        "taylor_swift/1989/shake_it_off",
+        "drake/scorpion/gods_plan",
+        "billie_eilish/when_we_all_fall_asleep/bad_guy",
+        "bts/map_of_the_soul_7/dynamite",
+        "dua_lipa/future_nostalgia/levitating"
+      ]
+    },
+    "chill_vibes": {
+      "id": "chill_vibes",
+      "name": "🌊 Chill Vibes",
+      "description": "Relaxing songs for any mood",
+      "tracks": [
+        "ed_sheeran/divide/perfect",
+        "arijit_singh/best_of_arijit/tum_hi_ho",
+        "taylor_swift/folklore/cardigan",
+        "billie_eilish/when_we_all_fall_asleep/bad_guy"
+      ]
+    }
+  },
+  "metadata": {
+    "total_artists": 8,
+    "total_tracks": 15,
+    "last_updated": "2025-09-17",
+    "version": "1.0.0"
+  }
+}
